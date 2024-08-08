@@ -1,9 +1,17 @@
 package frontend;
 
 import backend.LeerArchivoTexto;
+import frontend.reportes.AnimacionesUsadas;
+import frontend.reportes.ColoresUsados;
+import frontend.reportes.ObjetosUsados;
+import frontend.reportes.OperadoresMatematicos;
+import frontend.reportes.ReporteErrores;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -41,16 +49,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menuOpciones = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         abrirBoton = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        botonExportarPng = new javax.swing.JMenuItem();
+        botonExportarPdf = new javax.swing.JMenuItem();
         editorTexto = new javax.swing.JMenu();
         reportesBoton = new javax.swing.JMenu();
-        reportesLexico = new javax.swing.JMenuItem();
-        reportesSintactico = new javax.swing.JMenuItem();
+        reportesOperadoresMatematicos = new javax.swing.JMenuItem();
+        reporteColoresUsados = new javax.swing.JMenuItem();
+        reporteObjetosUsados = new javax.swing.JMenuItem();
+        reporteAnimacionesUsadas = new javax.swing.JMenuItem();
+        reporteErrores = new javax.swing.JMenuItem();
         ayudaBoton = new javax.swing.JMenu();
         acerdaDeBoton = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 700));
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         contenedorPanel.setBackground(new java.awt.Color(255, 255, 0));
         contenedorPanel.setLayout(new java.awt.BorderLayout());
@@ -71,6 +84,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(abrirBoton);
 
+        jMenu2.setBackground(new java.awt.Color(0, 153, 255));
+        jMenu2.setText("Exportar como");
+
+        botonExportarPng.setBackground(new java.awt.Color(0, 153, 255));
+        botonExportarPng.setText("PNG");
+        botonExportarPng.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonExportarPngActionPerformed(evt);
+            }
+        });
+        jMenu2.add(botonExportarPng);
+
+        botonExportarPdf.setBackground(new java.awt.Color(0, 153, 255));
+        botonExportarPdf.setText("PDF");
+        botonExportarPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonExportarPdfActionPerformed(evt);
+            }
+        });
+        jMenu2.add(botonExportarPdf);
+
+        jMenu1.add(jMenu2);
+
         menuOpciones.add(jMenu1);
 
         editorTexto.setText("Editor");
@@ -83,23 +119,50 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         reportesBoton.setText("Reportes");
 
-        reportesLexico.setBackground(new java.awt.Color(0, 153, 255));
-        reportesLexico.setText("Reporte Tokens");
-        reportesLexico.addActionListener(new java.awt.event.ActionListener() {
+        reportesOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
+        reportesOperadoresMatematicos.setText("Operadores matemáticos");
+        reportesOperadoresMatematicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportesLexicoActionPerformed(evt);
+                reportesOperadoresMatematicosActionPerformed(evt);
             }
         });
-        reportesBoton.add(reportesLexico);
+        reportesBoton.add(reportesOperadoresMatematicos);
 
-        reportesSintactico.setBackground(new java.awt.Color(0, 153, 255));
-        reportesSintactico.setText("Reportes Sintáctico");
-        reportesSintactico.addActionListener(new java.awt.event.ActionListener() {
+        reporteColoresUsados.setBackground(new java.awt.Color(0, 153, 255));
+        reporteColoresUsados.setText("Colores usados");
+        reporteColoresUsados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportesSintacticoActionPerformed(evt);
+                reporteColoresUsadosActionPerformed(evt);
             }
         });
-        reportesBoton.add(reportesSintactico);
+        reportesBoton.add(reporteColoresUsados);
+
+        reporteObjetosUsados.setBackground(new java.awt.Color(0, 153, 255));
+        reporteObjetosUsados.setText("Objetos usados");
+        reporteObjetosUsados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteObjetosUsadosActionPerformed(evt);
+            }
+        });
+        reportesBoton.add(reporteObjetosUsados);
+
+        reporteAnimacionesUsadas.setBackground(new java.awt.Color(0, 153, 255));
+        reporteAnimacionesUsadas.setText("Animaciones usados");
+        reporteAnimacionesUsadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteAnimacionesUsadasActionPerformed(evt);
+            }
+        });
+        reportesBoton.add(reporteAnimacionesUsadas);
+
+        reporteErrores.setBackground(new java.awt.Color(0, 153, 255));
+        reporteErrores.setText("Errores");
+        reporteErrores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteErroresActionPerformed(evt);
+            }
+        });
+        reportesBoton.add(reporteErrores);
 
         menuOpciones.add(reportesBoton);
 
@@ -127,7 +190,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void abrirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirBotonActionPerformed
         LeerArchivoTexto miArchivo = new LeerArchivoTexto();
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.TXT, *.PY", "txt", "py");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.TXT", "txt");
         chooser.setFileFilter(filtro);
         int seleccion = chooser.showOpenDialog(this);
 
@@ -190,26 +253,85 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dialogoAyuda.setVisible(true);*/
     }//GEN-LAST:event_acerdaDeBotonMouseClicked
 
-    private void reportesLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesLexicoActionPerformed
-        
-    }//GEN-LAST:event_reportesLexicoActionPerformed
+    private void reportesOperadoresMatematicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesOperadoresMatematicosActionPerformed
+        OperadoresMatematicos operadoresMatemáticos = new OperadoresMatematicos();
+        pintarPanel(operadoresMatemáticos);
+    }//GEN-LAST:event_reportesOperadoresMatematicosActionPerformed
 
-    private void reportesSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesSintacticoActionPerformed
+    private void reporteColoresUsadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteColoresUsadosActionPerformed
+        ColoresUsados coloresUsados = new ColoresUsados();
+        pintarPanel(coloresUsados);
+    }//GEN-LAST:event_reporteColoresUsadosActionPerformed
+
+    private void botonExportarPngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarPngActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int seleccion = chooser.showSaveDialog(this);
         
-    }//GEN-LAST:event_reportesSintacticoActionPerformed
+        if (seleccion != JFileChooser.SAVE_DIALOG) {
+           File fichero = chooser.getSelectedFile();
+           try {
+               FileWriter fileWriter = new FileWriter(fichero);
+               fileWriter.write("aquí va el archivo png");
+           } catch (IOException e) {
+               JOptionPane.showMessageDialog(this, "Hubo un error al guardar imagen .png.", "ERROR", JOptionPane.ERROR_MESSAGE);
+           }
+            System.out.println("guardando");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se guardó el archivo .png.","Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botonExportarPngActionPerformed
+
+    private void botonExportarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarPdfActionPerformed
+                JFileChooser chooser = new JFileChooser();
+        int seleccion = chooser.showSaveDialog(this);
+        
+        if (seleccion != JFileChooser.SAVE_DIALOG) {
+           File fichero = chooser.getSelectedFile();
+           try {
+               FileWriter fileWriter = new FileWriter(fichero);
+               fileWriter.write("aquí va el archivo pdf");
+           } catch (IOException e) {
+               JOptionPane.showMessageDialog(this, "Hubo un error al guardar documento .pdf.", "ERROR", JOptionPane.ERROR_MESSAGE);
+           }
+            System.out.println("guardando");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se guardó el archivo .pdf.","Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botonExportarPdfActionPerformed
+
+    private void reporteObjetosUsadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteObjetosUsadosActionPerformed
+        ObjetosUsados objetosUsados = new ObjetosUsados();
+        pintarPanel(objetosUsados);
+    }//GEN-LAST:event_reporteObjetosUsadosActionPerformed
+
+    private void reporteAnimacionesUsadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteAnimacionesUsadasActionPerformed
+        AnimacionesUsadas animacionesUsadas = new AnimacionesUsadas();
+        pintarPanel(animacionesUsadas);
+    }//GEN-LAST:event_reporteAnimacionesUsadasActionPerformed
+
+    private void reporteErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteErroresActionPerformed
+        ReporteErrores reporteErrores = new ReporteErrores();
+        pintarPanel(reporteErrores);
+    }//GEN-LAST:event_reporteErroresActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem abrirBoton;
     private javax.swing.JMenu acerdaDeBoton;
     private javax.swing.JMenu ayudaBoton;
+    private javax.swing.JMenuItem botonExportarPdf;
+    private javax.swing.JMenuItem botonExportarPng;
     private javax.swing.JPanel contenedorPanel;
     private javax.swing.JMenu editorTexto;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar menuOpciones;
+    private javax.swing.JMenuItem reporteAnimacionesUsadas;
+    private javax.swing.JMenuItem reporteColoresUsados;
+    private javax.swing.JMenuItem reporteErrores;
+    private javax.swing.JMenuItem reporteObjetosUsados;
     private javax.swing.JMenu reportesBoton;
-    private javax.swing.JMenuItem reportesLexico;
-    private javax.swing.JMenuItem reportesSintactico;
+    private javax.swing.JMenuItem reportesOperadoresMatematicos;
     // End of variables declaration//GEN-END:variables
 
     private void pintarPanel(Component panel) {
