@@ -13,6 +13,15 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.github.vbmacher/java-cup-runtime -->
+        <dependency>
+            <groupId>com.github.vbmacher</groupId>
+            <artifactId>java-cup-runtime</artifactId>
+            <version>11b-20160615-3</version>
+        </dependency>
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>

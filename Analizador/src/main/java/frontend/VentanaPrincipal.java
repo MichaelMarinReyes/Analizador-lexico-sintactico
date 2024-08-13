@@ -198,7 +198,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             String nombreArchivo = chooser.getSelectedFile().getName();
             String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.') + 1).toLowerCase();
 
-            if (extension.equals("txt") || extension.equals("py")) {
+            if (extension.equals("txt")) {
                 String textoLeido = miArchivo.abrirArchivo(chooser.getSelectedFile().getAbsolutePath());
                 this.pintarPanel(editor);
                 editor.setAreaEditor(textoLeido);

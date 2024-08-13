@@ -1,5 +1,9 @@
 package frontend;
 
+import backend.lexico.AnalizadorLexico;
+import backend.lexico.Token;
+import backend.lexico.TokenEnum;
+
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -14,7 +18,7 @@ import javax.swing.text.StyledDocument;
 public class EditorPanel extends javax.swing.JPanel {
 
     private NumeroLinea numerarEditor;
-    private NumeroLinea numerarConsola;
+    private ArrayList<Token> listaToken = new ArrayList();
 
     /**
      * Creates new form PruebaEditor
@@ -24,10 +28,7 @@ public class EditorPanel extends javax.swing.JPanel {
         mostrarColumnaLabel.setText("Columna: 1");
         numerarEditor = new NumeroLinea(areaEditor);
         scrollEditor.setRowHeaderView(numerarEditor);
-        numerarConsola = new NumeroLinea(areaConsola);
-        scrollConsola.setRowHeaderView(numerarConsola);
         areaEditor.setBackground(Color.LIGHT_GRAY);
-        areaConsola.setBackground(Color.LIGHT_GRAY);
         mostrarColumna();
         this.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -81,6 +82,7 @@ public class EditorPanel extends javax.swing.JPanel {
         limpiarBoton.setFont(new java.awt.Font("MesloLGL Nerd Font", 0, 13)); // NOI18N
         limpiarBoton.setForeground(new java.awt.Color(255, 255, 255));
         limpiarBoton.setText("Limpiar Editor");
+        limpiarBoton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         limpiarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarBotonActionPerformed(evt);
@@ -103,6 +105,7 @@ public class EditorPanel extends javax.swing.JPanel {
         ejecutarBoton.setFont(new java.awt.Font("MesloLGL Nerd Font", 1, 13)); // NOI18N
         ejecutarBoton.setForeground(new java.awt.Color(0, 0, 0));
         ejecutarBoton.setText("Ejecutar");
+        ejecutarBoton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         ejecutarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ejecutarBotonActionPerformed(evt);
@@ -150,8 +153,12 @@ public class EditorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ejecutarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarBotonActionPerformed
-        ejecutarAnalisisLexico();
-        ejecutarAnalisisSintactico();
+        if (areaEditor.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            ejecutarAnalisisLexico();
+            ejecutarAnalisisSintactico();
+        }
     }//GEN-LAST:event_ejecutarBotonActionPerformed
 
     private void limpiarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarBotonActionPerformed
@@ -179,14 +186,19 @@ public class EditorPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void ejecutarAnalisisLexico() {
-       
-            areaConsola.setText(areaConsola.getText() + "\n\nANÁLISIS LÉXICO COMPLETADO\n---------------------------------------------------------------------------------------------------------------------------------\n\n");
-            //ColorearEditor.colorPalabras(areaEditor.getStyledDocument(), areaEditor.getText(), listaToken);
-        
+        if (listaToken != null) {
+            listaToken.clear();
+        }
+        if (!areaConsola.getText().isEmpty()) {
+            //new AnalizadorLexico(listaToken).generarLexer();
+        }
+        areaConsola.setText(areaConsola.getText() + "\n\nANÁLISIS LÉXICO COMPLETADO\n---------------------------------------------------------------------------------------------------------------------------------\n\n");
+        //ColorearEditor.colorPalabras(areaEditor.getStyledDocument(), areaEditor.getText(), listaToken);
+
     }
 
     private void ejecutarAnalisisSintactico() {
-       
+
         areaConsola.setText(areaConsola.getText() + "\nANALISIS SINTÁCTICO COMPLETADO\n---------------------------------------------------------------------------------------------------------------------------------");
 
     }
