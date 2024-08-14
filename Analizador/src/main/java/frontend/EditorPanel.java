@@ -1,11 +1,12 @@
 package frontend;
 
-import backend.lexico.AnalizadorLexico;
+import backend.lexico.Lexer;
 import backend.lexico.Token;
-import backend.lexico.TokenEnum;
+import backend.sintactico.Parser;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.StringReader;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.text.SimpleAttributeSet;
@@ -156,8 +157,15 @@ public class EditorPanel extends javax.swing.JPanel {
         if (areaEditor.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            ejecutarAnalisisLexico();
-            ejecutarAnalisisSintactico();
+            Parser parser = null;
+            try {
+                Lexer lexer = new Lexer(new StringReader(areaEditor.getText()));
+                parser = new Parser(new Lexer(new StringReader(areaEditor.getText())));
+                parser.parse();
+                areaConsola.setText("análisis terminado");
+            } catch (Exception e) {
+                areaConsola.setText("error " + parser.toString());
+            }
         }
     }//GEN-LAST:event_ejecutarBotonActionPerformed
 

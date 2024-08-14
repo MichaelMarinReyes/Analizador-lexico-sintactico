@@ -1,5 +1,7 @@
 package backend.lexico;
 
+import backend.TokenEnum;
+
 public class Token {
 
     private TokenEnum tokenEnum;

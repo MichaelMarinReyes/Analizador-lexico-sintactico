@@ -1,0 +1,50 @@
+package backend.sintactico;
+/* parser.cup */
+import java_cup.runtime.*;
+
+class Parser;
+
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA;
+terminal COMA;
+terminal AZUL, ROJO, AMARILLO, VERDE, NEGRO, CELESTE, ROSADO, MORADO;
+terminal LINEA, CURVA;
+terminal GRAFICAR, CIRCULO, CUADRADO, RECTANGULO, LINEA_OBJ, POLIGONO;
+terminal ID, NUMERO;
+
+non terminal programa, comando, color, forma, animacion, expresion;
+
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+
+start with programa;
+
+programa ::= comando
+           | comando programa;
+
+comando ::= GRAFICAR forma PARENTESIS_ABRE ID COMA expresion COMA expresion COMA expresion COMA color PARENTESIS_CIERRA;
+
+forma ::= CIRCULO
+        | CUADRADO
+        | RECTANGULO
+        | LINEA_OBJ
+        | POLIGONO;
+
+color ::= AZUL
+        | ROJO
+        | AMARILLO
+        | VERDE
+        | NEGRO
+        | CELESTE
+        | ROSADO
+        | MORADO;
+
+expresion ::= expresion:e1 SUMA expresion:e2                {: RESULT = (Double)e1 + (Double)e2; :}
+            | expresion:e1 RESTA expresion:e2               {: RESULT = (Double)e1 - (Double)e2; :}
+            | expresion:e1 MULTIPLICACION expresion:e2      {: RESULT = (Double)e1 * (Double)e2; :}
+            | expresion:e1 DIVISION expresion:e2            {: RESULT = (Double)e1 / (Double)e2; :}
+            | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = e; :}
+            | NUMERO:n                                      {: RESULT = n; :}
+            | ID:i                                          {: RESULT = i; :};
+
+animacion ::= LINEA
+            | CURVA;

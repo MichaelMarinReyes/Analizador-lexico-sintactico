@@ -1,4 +1,4 @@
-package backend.lexico;
+package backend;
 
 /**
  *
