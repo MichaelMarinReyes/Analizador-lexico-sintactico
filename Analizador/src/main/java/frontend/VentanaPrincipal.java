@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private EditorPanel editor = new EditorPanel();
-
+    
     /**
      * Creates new form VentanaPrincipal
      */
@@ -34,6 +34,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setTitle("Práctica 1");
         initComponents();
         this.pintarPanel(editor);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -76,7 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Archivo");
 
         abrirBoton.setBackground(new java.awt.Color(0, 153, 255));
-        abrirBoton.setText("Abrir archivo");
+        abrirBoton.setText("Importar archivo");
         abrirBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 abrirBotonActionPerformed(evt);
@@ -86,6 +87,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenu2.setBackground(new java.awt.Color(0, 153, 255));
         jMenu2.setText("Exportar como");
+        jMenu2.setOpaque(true);
 
         botonExportarPng.setBackground(new java.awt.Color(0, 153, 255));
         botonExportarPng.setText("PNG");

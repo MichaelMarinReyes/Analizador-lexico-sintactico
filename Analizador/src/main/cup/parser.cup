@@ -1,8 +1,22 @@
 package backend.sintactico;
 /* parser.cup */
 import java_cup.runtime.*;
+import backend.reportes.ErrorReporte;
+import backend.lexico.Lexer;
+import java.util.ArrayList;
 
 class Parser;
+
+action code {:
+    public void syntax_error(Symbol s){
+        System.out.println("Error de sintáxis: " + s.value + " Línea: " + (s.left+1) + " Columna: " + (s.right+1));
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        System.out.println("Error de sintáxis: " + s.value + " Línea: " + (s.left+1) + " Columna: " + (s.right+1));
+    }
+
+:}
 
 terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA;
 terminal COMA;
@@ -10,25 +24,33 @@ terminal AZUL, ROJO, AMARILLO, VERDE, NEGRO, CELESTE, ROSADO, MORADO;
 terminal LINEA, CURVA;
 terminal GRAFICAR, CIRCULO, CUADRADO, RECTANGULO, LINEA_OBJ, POLIGONO;
 terminal ID, NUMERO;
+terminal ANIMAR;
 
-non terminal programa, comando, color, forma, animacion, expresion;
+/* Non-terminal para la nueva instrucción */
+non terminal programa, comando, color, forma, expresion, tipoanimacion;
 
+/* Precedencia de los operadores */
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
 
 start with programa;
 
-programa ::= comando
+/* Programa y comandos existentes */
+programa ::= comando    {:System.out.println("entrando");:}
            | comando programa;
 
-comando ::= GRAFICAR forma PARENTESIS_ABRE ID COMA expresion COMA expresion COMA expresion COMA color PARENTESIS_CIERRA;
+/* Comando para graficar y animar */
+comando ::= GRAFICAR forma PARENTESIS_ABRE ID COMA expresion COMA expresion COMA expresion COMA color PARENTESIS_CIERRA {:System.out.println("comando para graficar");:}
+          | ANIMAR forma PARENTESIS_ABRE tipoanimacion COMA expresion COMA expresion COMA expresion PARENTESIS_CIERRA;
 
+/* Formas existentes */
 forma ::= CIRCULO
         | CUADRADO
         | RECTANGULO
         | LINEA_OBJ
         | POLIGONO;
 
+/* Colores existentes */
 color ::= AZUL
         | ROJO
         | AMARILLO
@@ -38,13 +60,15 @@ color ::= AZUL
         | ROSADO
         | MORADO;
 
-expresion ::= expresion:e1 SUMA expresion:e2                {: RESULT = (Double)e1 + (Double)e2; :}
-            | expresion:e1 RESTA expresion:e2               {: RESULT = (Double)e1 - (Double)e2; :}
-            | expresion:e1 MULTIPLICACION expresion:e2      {: RESULT = (Double)e1 * (Double)e2; :}
-            | expresion:e1 DIVISION expresion:e2            {: RESULT = (Double)e1 / (Double)e2; :}
-            | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = e; :}
-            | NUMERO:n                                      {: RESULT = n; :}
-            | ID:i                                          {: RESULT = i; :};
+/* Tipos de animación */
+tipoanimacion ::= CURVA
+                | LINEA;
 
-animacion ::= LINEA
-            | CURVA;
+/* Expresiones aritméticas */
+expresion ::= expresion:e1 SUMA expresion:e2                {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
+             | expresion:e1 RESTA expresion:e2               {: RESULT = ((Number)e1).doubleValue() - ((Number)e2).doubleValue(); :}
+             | expresion:e1 MULTIPLICACION expresion:e2      {: RESULT = ((Number)e1).doubleValue() * ((Number)e2).doubleValue(); :}
+             | expresion:e1 DIVISION expresion:e2            {: RESULT = ((Number)e1).doubleValue() / ((Number)e2).doubleValue(); :}
+             | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = e; :}
+             | NUMERO:n                                      {: RESULT = n; :};
+

@@ -1,37 +1,24 @@
 package backend.lexico;
 
-import backend.TokenEnum;
-
 public class Token {
-
-    private TokenEnum tokenEnum;
-    private String lexema;
+    private String tipo;
     private int linea;
     private int columna;
+    private String lexema;
 
-    public Token() {
-        //Constructor vacío
-    }
-
-    public Token(String lexema, int linea, int columna) {
-        this.lexema = lexema;
+    public Token(String tipo, int linea, int columna, String lexema) {
+        this.tipo = tipo;
         this.linea = linea;
         this.columna = columna;
-    }
-
-    public Token(TokenEnum tokenEnum, String lexema, int linea, int columna) {
-        this.tokenEnum = tokenEnum;
         this.lexema = lexema;
-        this.linea = linea;
-        this.columna = columna;
     }
 
-    public String getLexema() {
-        return lexema;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setLexema(String lexema) {
-        this.lexema = lexema;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getLinea() {
@@ -50,11 +37,21 @@ public class Token {
         this.columna = columna;
     }
 
-    public TokenEnum getTokenEnum() {
-        return tokenEnum;
+    public String getLexema() {
+        return lexema;
     }
 
-    public void setTokenEnum(TokenEnum tokenEnum) {
-        this.tokenEnum = tokenEnum;
+    public void setLexema(String lexema) {
+        this.lexema = lexema;
+    }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "tipo='" + tipo + '\'' +
+                ", linea=" + linea +
+                ", columna=" + columna +
+                ", lexema='" + lexema + '\'' +
+                '}';
     }
 }

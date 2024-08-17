@@ -2,6 +2,8 @@ package backend.lexico;
 
 import java_cup.runtime.*;
 import backend.sintactico.*;
+import backend.reportes.ErrorReporte;
+import java.util.ArrayList;
 
 %%
 %public
@@ -9,8 +11,9 @@ import backend.sintactico.*;
 %unicode
 %line
 %column
+%ignorecase
 %cup
-
+/*
 %{
   private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
@@ -21,40 +24,53 @@ import backend.sintactico.*;
   }
 
 %}
+*/
+
+%{
+    public static ArrayList<ErrorReporte> errores = new ArrayList<>();
+
+    public ArrayList<ErrorReporte> getErrores() {
+        return errores;
+    }
+%}
 
 %state OPERATOR_STATE
 
 %%
-"azul"            { return symbol(ParserSym.AZUL); }
-"rojo"            { return symbol(ParserSym.ROJO); }
-"amarillo"        { return symbol(ParserSym.AMARILLO); }
-"verde"           { return symbol(ParserSym.VERDE); }
-"negro"           { return symbol(ParserSym.NEGRO); }
-"celeste"         { return symbol(ParserSym.CELESTE); }
-"rosado"          { return symbol(ParserSym.ROSADO); }
-"morado"          { return symbol(ParserSym.MORADO); }
+"azul"            { return new Symbol(ParserSym.AZUL, yyline+1, yycolumn+1, yytext()); }
+"rojo"            { return new Symbol(ParserSym.ROJO, yyline+1, yycolumn+1, yytext()); }
+"amarillo"        { return new Symbol(ParserSym.AMARILLO, yyline+1, yycolumn+1, yytext()); }
+"verde"           { return new Symbol(ParserSym.VERDE, yyline+1, yycolumn+1, yytext()); }
+"negro"           { return new Symbol(ParserSym.NEGRO, yyline+1, yycolumn+1, yytext()); }
+"celeste"         { return new Symbol(ParserSym.CELESTE, yyline+1, yycolumn+1, yytext()); }
+"rosado"          { return new Symbol(ParserSym.ROSADO, yyline+1, yycolumn+1, yytext()); }
+"morado"          { return new Symbol(ParserSym.MORADO, yyline+1, yycolumn+1, yytext()); }
 
-"línea"           { return symbol(ParserSym.LINEA); }
-"curva"           { return symbol(ParserSym.CURVA); }
+"línea"           { return new Symbol(ParserSym.LINEA, yyline+1, yycolumn+1, yytext()); }
+"curva"           { return new Symbol(ParserSym.CURVA, yyline+1, yycolumn+1, yytext()); }
 
-"graficar"        { return symbol(ParserSym.GRAFICAR); }
-"circulo"         { return symbol(ParserSym.CIRCULO); }
-"cuadrado"        { return symbol(ParserSym.CUADRADO); }
-"rectangulo"      { return symbol(ParserSym.RECTANGULO); }
-"linea"           { return symbol(ParserSym.LINEA_OBJ); }
-"poligono"        { return symbol(ParserSym.POLIGONO); }
+"graficar"        { return new Symbol(ParserSym.GRAFICAR, yyline+1, yycolumn+1, yytext()); }
+"circulo"         { return new Symbol(ParserSym.CIRCULO, yyline+1, yycolumn+1, yytext()); }
+"cuadrado"        { return new Symbol(ParserSym.CUADRADO, yyline+1, yycolumn+1, yytext()); }
+"rectangulo"      { return new Symbol(ParserSym.RECTANGULO, yyline+1, yycolumn+1, yytext()); }
+"linea"           { return new Symbol(ParserSym.LINEA_OBJ, yyline+1, yycolumn+1, yytext()); }
+"poligono"        { return new Symbol(ParserSym.POLIGONO, yyline+1, yycolumn+1, yytext()); }
 
 [ \t\n\r\f]       { /* Ignorar espacios en blanco */ }
 
-"+"               { return symbol(ParserSym.SUMA); }
-"-"               { return symbol(ParserSym.RESTA); }
-"*"               { return symbol(ParserSym.MULTIPLICACION); }
-"/"               { return symbol(ParserSym.DIVISION); }
-"("               { return symbol(ParserSym.PARENTESIS_ABRE); }
-")"               { return symbol(ParserSym.PARENTESIS_CIERRA); }
-","               { return symbol(ParserSym.COMA); }
+"+"               { return new Symbol(ParserSym.SUMA, yyline+1, yycolumn+1, yytext()); }
+"-"               { return new Symbol(ParserSym.RESTA, yyline+1, yycolumn+1, yytext()); }
+"*"               { return new Symbol(ParserSym.MULTIPLICACION, yyline+1, yycolumn+1, yytext()); }
+"/"               { return new Symbol(ParserSym.DIVISION, yyline+1, yycolumn+1, yytext()); }
+"("               { return new Symbol(ParserSym.PARENTESIS_ABRE, yyline+1, yycolumn+1, yytext()); }
+")"               { return new Symbol(ParserSym.PARENTESIS_CIERRA, yyline+1, yycolumn+1, yytext()); }
+","               { return new Symbol(ParserSym.COMA, yyline+1, yycolumn+1, yytext()); }
 
-[a-zA-Z_][a-zA-Z0-9_-]* { return symbol(ParserSym.ID, yytext()); }
-[0-9]+           { return symbol(ParserSym.NUMERO, Integer.parseInt(yytext())); }
-<<EOF>>          { return new Symbol(ParserSym.EOF); }
-.                { System.err.println("Error léxico: " + yytext()); }
+[a-zA-Z_][a-zA-Z0-9_]* { return new Symbol(ParserSym.ID, yytext()); }
+[0-9]+\.[0-9]+    { return new Symbol(ParserSym.NUMERO, Double.parseDouble(yytext())); }
+[0-9]+            { return new Symbol(ParserSym.NUMERO, Integer.parseInt(yytext())); }
+<<EOF>>           { return new Symbol(ParserSym.EOF); }
+.                 {
+                        errores.add(new ErrorReporte(yytext(), yyline + 1, yycolumn + 1, "Léxico", "Caracter desconocido: " + yytext()));
+                        System.err.println("Error léxico: " + yytext() + " linea: " + String.valueOf(yyline + 1) + " columna: " + String.valueOf(yycolumn + 1));
+                    }

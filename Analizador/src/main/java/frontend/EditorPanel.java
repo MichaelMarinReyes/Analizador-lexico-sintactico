@@ -1,13 +1,12 @@
 package frontend;
 
 import backend.lexico.Lexer;
-import backend.lexico.Token;
 import backend.sintactico.Parser;
-
+import frontend.graficas.PanelDibujo;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.StringReader;
-import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
@@ -19,7 +18,6 @@ import javax.swing.text.StyledDocument;
 public class EditorPanel extends javax.swing.JPanel {
 
     private NumeroLinea numerarEditor;
-    private ArrayList<Token> listaToken = new ArrayList();
 
     /**
      * Creates new form PruebaEditor
@@ -60,10 +58,9 @@ public class EditorPanel extends javax.swing.JPanel {
         mostrarColumnaLabel = new javax.swing.JLabel();
         limpiarBoton = new javax.swing.JButton();
         ejecutarBoton = new javax.swing.JButton();
-        scrollConsola = new javax.swing.JScrollPane();
-        areaConsola = new javax.swing.JEditorPane();
         scrollEditor = new javax.swing.JScrollPane();
         areaEditor = new javax.swing.JTextPane();
+        pizarronPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 0));
         setPreferredSize(new java.awt.Dimension(844, 590));
@@ -76,7 +73,7 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 423, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(11, 423, 0, 0);
         add(mostrarColumnaLabel, gridBagConstraints);
 
         limpiarBoton.setBackground(new java.awt.Color(0, 153, 255));
@@ -99,7 +96,7 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 101, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 101, 7, 0);
         add(limpiarBoton, gridBagConstraints);
 
         ejecutarBoton.setBackground(new java.awt.Color(51, 255, 51));
@@ -115,63 +112,64 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 29;
         gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(9, 60, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(4, 68, 1, 0);
         add(ejecutarBoton, gridBagConstraints);
-
-        scrollConsola.setViewportView(areaConsola);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 882;
-        gridBagConstraints.ipady = 124;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(12, 32, 7, 31);
-        add(scrollConsola, gridBagConstraints);
 
         scrollEditor.setViewportView(areaEditor);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 882;
-        gridBagConstraints.ipady = 362;
+        gridBagConstraints.ipadx = 858;
+        gridBagConstraints.ipady = 80;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 32, 0, 31);
+        gridBagConstraints.insets = new java.awt.Insets(0, 32, 0, 31);
         add(scrollEditor, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 907;
+        gridBagConstraints.ipady = 325;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 33, 16, 29);
+        add(pizarronPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ejecutarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarBotonActionPerformed
+        String mensajeError = "Excepcipon en ejecutar";
         if (areaEditor.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
+            JFrame ventanaDibujos = new JFrame("Dibujos");
+            PanelDibujo panelDibujo = new PanelDibujo();
+            ventanaDibujos.add(panelDibujo);
+            ventanaDibujos.setSize(1200, 600);
+            ventanaDibujos.setLocationRelativeTo(this);
+            ventanaDibujos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            ventanaDibujos.setVisible(true);
         } else {
             Parser parser = null;
             try {
                 Lexer lexer = new Lexer(new StringReader(areaEditor.getText()));
-                parser = new Parser(new Lexer(new StringReader(areaEditor.getText())));
+                parser = new Parser(lexer);
                 parser.parse();
-                areaConsola.setText("análisis terminado");
             } catch (Exception e) {
-                areaConsola.setText("error " + parser.toString());
+                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_ejecutarBotonActionPerformed
 
     private void limpiarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarBotonActionPerformed
         areaEditor.setText("");
-        areaConsola.setText("");
         StyledDocument doc = areaEditor.getStyledDocument();
         doc.setCharacterAttributes(0, doc.getLength(), new SimpleAttributeSet(), true);
     }//GEN-LAST:event_limpiarBotonActionPerformed
@@ -184,36 +182,32 @@ public class EditorPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane areaConsola;
     private javax.swing.JTextPane areaEditor;
     private javax.swing.JButton ejecutarBoton;
     private javax.swing.JButton limpiarBoton;
     private javax.swing.JLabel mostrarColumnaLabel;
-    private javax.swing.JScrollPane scrollConsola;
+    private javax.swing.JPanel pizarronPanel;
     private javax.swing.JScrollPane scrollEditor;
     // End of variables declaration//GEN-END:variables
 
     public void ejecutarAnalisisLexico() {
-        if (listaToken != null) {
+    /*    if (listaToken != null) {
             listaToken.clear();
         }
         if (!areaConsola.getText().isEmpty()) {
             //new AnalizadorLexico(listaToken).generarLexer();
-        }
-        areaConsola.setText(areaConsola.getText() + "\n\nANÁLISIS LÉXICO COMPLETADO\n---------------------------------------------------------------------------------------------------------------------------------\n\n");
+        }*/
         //ColorearEditor.colorPalabras(areaEditor.getStyledDocument(), areaEditor.getText(), listaToken);
 
     }
 
     private void ejecutarAnalisisSintactico() {
 
-        areaConsola.setText(areaConsola.getText() + "\nANALISIS SINTÁCTICO COMPLETADO\n---------------------------------------------------------------------------------------------------------------------------------");
 
     }
 
     public void limpiarTodo() {
         areaEditor.setText("");
-        areaConsola.setText("");
     }
 
     private void mostrarColumna() {

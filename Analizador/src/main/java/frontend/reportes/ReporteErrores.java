@@ -1,5 +1,7 @@
 package frontend.reportes;
 
+import backend.lexico.Lexer;
+import backend.reportes.ErrorReporte;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -14,7 +16,7 @@ public class ReporteErrores extends javax.swing.JPanel {
      */
     public ReporteErrores() {
         initComponents();
-        actualizarTablaOperadoresMatematicos();
+        actualizarTablaErrores();
     }
 
     /**
@@ -79,20 +81,22 @@ public class ReporteErrores extends javax.swing.JPanel {
     private javax.swing.JTable tablaErrores;
     // End of variables declaration//GEN-END:variables
 
-    public void actualizarTablaOperadoresMatematicos() {
+    public void actualizarTablaErrores() {
         String[] columnas = {"Lexema", "Línea", "Columna", "Tipo", "Descripción"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaErrores.setModel(modelo);
-
+        System.out.println("Tamaño del array: " + Lexer.errores.size());
         TableModel modeloDatos = tablaErrores.getModel();
-        /*for (int i = 0; i < AdministradorRestaurante.Listahistorial.size(); i++) {
-            RegistroHistorial historial = AdministradorRestaurante.Listahistorial.get(i);
-            modeloDatos.setValueAt(historial.getPiloto(), i, 0);
-            modeloDatos.setValueAt(historial.getDistancia(), i, 1);
-            modeloDatos.setValueAt(historial.getTotal(), i, 2);
-            modeloDatos.setValueAt(historial.getFechaInicial(), i, 3);
-            modeloDatos.setValueAt(historial.getFechaEntrega(), i, 4);
+        for (int i = 0; i < Lexer.errores.size(); i++) {
+            ErrorReporte errorReporte = Lexer.errores.get(i);
+            modeloDatos.setValueAt(errorReporte.getLexema(), i, 0);
+            modeloDatos.setValueAt(errorReporte.getLinea(), i, 1);
+            modeloDatos.setValueAt(errorReporte.getColumna(), i, 2);
+            modeloDatos.setValueAt(errorReporte.getTipo(), i, 3);
+            modeloDatos.setValueAt(errorReporte.getDescripcion(), i, 4);
+            System.out.println("generando");
+            System.out.println(errorReporte.toString());
         }    
-        AdministradorRestaurante.guardarSerializableHistorial();*/
+        //AdministradorRestaurante.guardarSerializableHistorial();
     }
 }
