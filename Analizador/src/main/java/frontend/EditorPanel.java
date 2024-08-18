@@ -60,7 +60,6 @@ public class EditorPanel extends javax.swing.JPanel {
         ejecutarBoton = new javax.swing.JButton();
         scrollEditor = new javax.swing.JScrollPane();
         areaEditor = new javax.swing.JTextPane();
-        pizarronPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 0));
         setPreferredSize(new java.awt.Dimension(844, 590));
@@ -73,7 +72,7 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 423, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 423, 0, 0);
         add(mostrarColumnaLabel, gridBagConstraints);
 
         limpiarBoton.setBackground(new java.awt.Color(0, 153, 255));
@@ -96,7 +95,7 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 101, 7, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 101, 7, 0);
         add(limpiarBoton, gridBagConstraints);
 
         ejecutarBoton.setBackground(new java.awt.Color(51, 255, 51));
@@ -116,7 +115,7 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.ipadx = 29;
         gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(4, 68, 1, 0);
+        gridBagConstraints.insets = new java.awt.Insets(14, 68, 1, 0);
         add(ejecutarBoton, gridBagConstraints);
 
         scrollEditor.setViewportView(areaEditor);
@@ -131,18 +130,8 @@ public class EditorPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 32, 0, 31);
+        gridBagConstraints.insets = new java.awt.Insets(20, 32, 20, 32);
         add(scrollEditor, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 907;
-        gridBagConstraints.ipady = 325;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 33, 16, 29);
-        add(pizarronPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ejecutarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarBotonActionPerformed
@@ -186,7 +175,6 @@ public class EditorPanel extends javax.swing.JPanel {
     private javax.swing.JButton ejecutarBoton;
     private javax.swing.JButton limpiarBoton;
     private javax.swing.JLabel mostrarColumnaLabel;
-    private javax.swing.JPanel pizarronPanel;
     private javax.swing.JScrollPane scrollEditor;
     // End of variables declaration//GEN-END:variables
 

@@ -5,11 +5,11 @@ public class Poligono {
     private double posicionX;
     private double posicionY;
     private int cantidadLados;
-    private int ancho;
+    private double ancho;
     private double alto;
     private String color;
 
-    public Poligono(String nombre, double posicionX, double posicionY, int cantidadLados, int ancho, double alto, String color) {
+    public Poligono(String nombre, double posicionX, double posicionY, int cantidadLados, double ancho, double alto, String color) {
         this.nombre = nombre;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
@@ -51,7 +51,7 @@ public class Poligono {
         this.cantidadLados = cantidadLados;
     }
 
-    public int getAncho() {
+    public double getAncho() {
         return ancho;
     }
 

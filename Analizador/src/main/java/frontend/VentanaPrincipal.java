@@ -31,7 +31,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
-        this.setTitle("Práctica 1");
+        this.setTitle("Generador de Figuras");
         initComponents();
         this.pintarPanel(editor);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);

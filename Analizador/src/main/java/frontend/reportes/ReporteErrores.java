@@ -2,6 +2,8 @@ package frontend.reportes;
 
 import backend.lexico.Lexer;
 import backend.reportes.ErrorReporte;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -59,6 +61,7 @@ public class ReporteErrores extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaErrores.setSelectionForeground(new java.awt.Color(255, 255, 204));
         jScrollPane1.setViewportView(tablaErrores);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -85,18 +88,25 @@ public class ReporteErrores extends javax.swing.JPanel {
         String[] columnas = {"Lexema", "Línea", "Columna", "Tipo", "Descripción"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaErrores.setModel(modelo);
-        System.out.println("Tamaño del array: " + Lexer.errores.size());
-        TableModel modeloDatos = tablaErrores.getModel();
+
+        // Centrar el texto en todas las columnas
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < tablaErrores.getColumnCount(); i++) {
+            tablaErrores.getColumnModel().getColumn(i).setCellRenderer(centrado);
+        }
+
         for (int i = 0; i < Lexer.errores.size(); i++) {
             ErrorReporte errorReporte = Lexer.errores.get(i);
-            modeloDatos.setValueAt(errorReporte.getLexema(), i, 0);
-            modeloDatos.setValueAt(errorReporte.getLinea(), i, 1);
-            modeloDatos.setValueAt(errorReporte.getColumna(), i, 2);
-            modeloDatos.setValueAt(errorReporte.getTipo(), i, 3);
-            modeloDatos.setValueAt(errorReporte.getDescripcion(), i, 4);
-            System.out.println("generando");
-            System.out.println(errorReporte.toString());
-        }    
-        //AdministradorRestaurante.guardarSerializableHistorial();
+            Object[] fila = {
+                errorReporte.getLexema(),
+                errorReporte.getLinea(),
+                errorReporte.getColumna(),
+                errorReporte.getTipo(),
+                errorReporte.getDescripcion()
+            };
+            modelo.addRow(fila);
+        }
     }
 }

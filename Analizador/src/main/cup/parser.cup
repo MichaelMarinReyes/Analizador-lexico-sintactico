@@ -1,74 +1,95 @@
 package backend.sintactico;
-/* parser.cup */
+
 import java_cup.runtime.*;
-import backend.reportes.ErrorReporte;
+import backend.figuras.*;
 import backend.lexico.Lexer;
-import java.util.ArrayList;
+import backend.reportes.ErrorReporte;
 
 class Parser;
 
 action code {:
+
+    /**
+     * Método al que se llama automáticamente ante algún error sintáctico.
+     **/
     public void syntax_error(Symbol s){
-        System.out.println("Error de sintáxis: " + s.value + " Línea: " + (s.left+1) + " Columna: " + (s.right+1));
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+            " Columna "+s.right+ ". No se esperaba este componente: " + s.value + ".");
     }
 
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
-        System.out.println("Error de sintáxis: " + s.value + " Línea: " + (s.left+1) + " Columna: " + (s.right+1));
+    /**
+     * Método al que se llama cuando se identifica un error sintáctico en el que
+     * ya no es posible una recuperación de errores.
+     **/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.out.println("Error sintáctico irrecuperable en la Línea " +
+            (s.left) + " Columna " + s.right + ". Componente " + s.value + " no reconocido.");
     }
 
 :}
 
-terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA;
-terminal COMA;
-terminal AZUL, ROJO, AMARILLO, VERDE, NEGRO, CELESTE, ROSADO, MORADO;
-terminal LINEA, CURVA;
-terminal GRAFICAR, CIRCULO, CUADRADO, RECTANGULO, LINEA_OBJ, POLIGONO;
-terminal ID, NUMERO;
-terminal ANIMAR;
+terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,
+NEGRO, CELESTE, ROSADO, MORADO, LINEA, CURVA, GRAFICAR, CIRCULO, CUADRADO, RECTANGULO, LINEA_OBJ, POLIGONO, ANIMAR,
+OBJETO, ANTERIOR, NUMERO;
+terminal String ID;
 
-/* Non-terminal para la nueva instrucción */
-non terminal programa, comando, color, forma, expresion, tipoanimacion;
+/* Non-terminal para las producciones */
+non terminal programa, instruccion, animar, forma, color, tipoanimacion, expresion, inicial, errorSintactico;
 
 /* Precedencia de los operadores */
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
 
-start with programa;
+start with inicial;
 
-/* Programa y comandos existentes */
-programa ::= comando    {:System.out.println("entrando");:}
-           | comando programa;
+inicial ::= programa;
 
-/* Comando para graficar y animar */
-comando ::= GRAFICAR forma PARENTESIS_ABRE ID COMA expresion COMA expresion COMA expresion COMA color PARENTESIS_CIERRA {:System.out.println("comando para graficar");:}
-          | ANIMAR forma PARENTESIS_ABRE tipoanimacion COMA expresion COMA expresion COMA expresion PARENTESIS_CIERRA;
+/* Programa con múltiples instrucciones */
+programa ::= instruccion
+           | errorSintactico programa;
+
+/* Instrucciones válidas */
+instruccion ::= GRAFICAR forma
+              | ANIMAR OBJETO ANTERIOR animar;
 
 /* Formas existentes */
-forma ::= CIRCULO
-        | CUADRADO
-        | RECTANGULO
-        | LINEA_OBJ
-        | POLIGONO;
+forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:radio COMA color:col PARENTESIS_CIERRA {:
+    new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col);
+:}
+        | CUADRADO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:tamanio COMA color:col PARENTESIS_CIERRA {:
+    new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col);
+:}
+        | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
+    new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col);
+:}
+        | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
+    new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col);
+:}
+        | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
+    new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)cantLados, (Double)ancho, (Double)alto, (String)col);
+:};
 
-/* Colores existentes */
-color ::= AZUL
-        | ROJO
-        | AMARILLO
-        | VERDE
-        | NEGRO
-        | CELESTE
-        | ROSADO
-        | MORADO;
+/* Colores disponibles */
+color ::= AZUL    {: RESULT = "azul"; :}
+        | ROJO    {: RESULT = "rojo"; :}
+        | AMARILLO {: RESULT = "amarillo"; :}
+        | VERDE   {: RESULT = "verde"; :}
+        | NEGRO   {: RESULT = "negro"; :}
+        | CELESTE {: RESULT = "celeste"; :}
+        | ROSADO  {: RESULT = "rosado"; :}
+        | MORADO  {: RESULT = "morado"; :};
+
+/* Animación de objeto */
+animar ::= PARENTESIS_ABRE tipoanimacion COMA expresion COMA expresion COMA expresion PARENTESIS_CIERRA;
 
 /* Tipos de animación */
-tipoanimacion ::= CURVA
-                | LINEA;
+tipoanimacion ::= CURVA {: RESULT = "curva"; :}
+                | LINEA {: RESULT = "linea"; :};
 
 /* Expresiones aritméticas */
-expresion ::= expresion:e1 SUMA expresion:e2                {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
+expresion ::= expresion:e1 SUMA expresion:e2                 {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
              | expresion:e1 RESTA expresion:e2               {: RESULT = ((Number)e1).doubleValue() - ((Number)e2).doubleValue(); :}
              | expresion:e1 MULTIPLICACION expresion:e2      {: RESULT = ((Number)e1).doubleValue() * ((Number)e2).doubleValue(); :}
              | expresion:e1 DIVISION expresion:e2            {: RESULT = ((Number)e1).doubleValue() / ((Number)e2).doubleValue(); :}
              | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = e; :}
              | NUMERO:n                                      {: RESULT = n; :};
-
