@@ -46,6 +46,11 @@ public class AnimacionesUsadas extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
         add(filtroOperadoresMatematicos, gridBagConstraints);
 
+        tablaAnimacionesUsadas = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         tablaAnimacionesUsadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

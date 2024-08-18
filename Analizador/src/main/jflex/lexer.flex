@@ -5,6 +5,7 @@ import backend.sintactico.*;
 import backend.reportes.ErrorReporte;
 import java.sql.SQLOutput;import java.util.ArrayList;
 import backend.lexico.Token;
+import backend.lexico.OperadorAritmetico;
 
 %%
 %public
@@ -20,6 +21,7 @@ ID = [a-zA-Z_][a-zA-Z0-9_]*
 %{
     public static ArrayList<ErrorReporte> errores = new ArrayList<>();
     public static ArrayList<Token> tokens = new ArrayList<>();
+    public static ArrayList<OperadorAritmetico> operadorAritmetico = new ArrayList<>();
 
     public ArrayList<ErrorReporte> getErrores() {
         return errores;
@@ -54,10 +56,10 @@ ID = [a-zA-Z_][a-zA-Z0-9_]*
 
 [ \t\n\r\f]       { /* Ignorar espacios en blanco */ }
 
-"+"               { return new Symbol(ParserSym.SUMA, yyline+1, yycolumn+1, yytext()); }
-"-"               { return new Symbol(ParserSym.RESTA, yyline+1, yycolumn+1, yytext()); }
-"*"               { return new Symbol(ParserSym.MULTIPLICACION, yyline+1, yycolumn+1, yytext()); }
-"/"               { return new Symbol(ParserSym.DIVISION, yyline+1, yycolumn+1, yytext()); }
+"+"               { operadorAritmetico.add(new OperadorAritmetico("SUMA", yytext(), yyline+1, yycolumn+1, 1)); return new Symbol(ParserSym.SUMA, yyline+1, yycolumn+1, yytext()); }
+"-"               { operadorAritmetico.add(new OperadorAritmetico("RESTA", yytext(), yyline+1, yycolumn+1, 1)); return new Symbol(ParserSym.RESTA, yyline+1, yycolumn+1, yytext()); }
+"*"               { operadorAritmetico.add(new OperadorAritmetico("MULTIPLICACIÓN", yytext(), yyline+1, yycolumn+1, 1)); return new Symbol(ParserSym.MULTIPLICACION, yyline+1, yycolumn+1, yytext()); }
+"/"               { operadorAritmetico.add(new OperadorAritmetico("DIVISIÓN", yytext(), yyline+1, yycolumn+1, 1)); return new Symbol(ParserSym.DIVISION, yyline+1, yycolumn+1, yytext()); }
 "("               { return new Symbol(ParserSym.PARENTESIS_ABRE, yyline+1, yycolumn+1, yytext()); }
 ")"               { return new Symbol(ParserSym.PARENTESIS_CIERRA, yyline+1, yycolumn+1, yytext()); }
 ","               { return new Symbol(ParserSym.COMA, yyline+1, yycolumn+1, yytext()); }

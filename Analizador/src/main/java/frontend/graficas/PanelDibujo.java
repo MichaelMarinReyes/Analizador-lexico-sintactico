@@ -1,5 +1,7 @@
 package frontend.graficas;
 
+import backend.figuras.Figura;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -10,17 +12,18 @@ import javax.swing.JPanel;
  */
 public class PanelDibujo extends JPanel {
 
+    private Figura figura;
     
-    public PanelDibujo() {
-        this.setBackground(Color.GRAY);
+    public void setFigura(Figura figura) {
+        this.figura = figura;
+        repaint();
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        g.drawLine(100, 100, 200, 200);
-        g.setColor(Color.yellow);
-        g.fillRect(300, 300, 100, 100);
-        g.fillOval(500, 100, 100, 100);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (figura != null) {
+            figura.dibujar(g);
+        }
     }
 }

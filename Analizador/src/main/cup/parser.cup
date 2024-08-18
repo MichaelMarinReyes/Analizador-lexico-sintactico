@@ -4,6 +4,8 @@ import java_cup.runtime.*;
 import backend.figuras.*;
 import backend.lexico.Lexer;
 import backend.reportes.ErrorReporte;
+import javax.swing.JFrame;
+import frontend.graficas.PanelDibujo;
 
 class Parser;
 
@@ -26,15 +28,34 @@ action code {:
             (s.left) + " Columna " + s.right + ". Componente " + s.value + " no reconocido.");
     }
 
+    public void graficar(String figura, double x, double y, double radio, String color) {
+
+    if (figura.equals("linea")) {
+        System.out.println("graficando linea");
+
+        //ventanaDibujos.add(panelDibujo);
+    } else if (figura.equals("circulo")) {
+        System.out.println("graficando circulo");
+    } else if (figura.equals("cuadrado")) {
+        System.out.println("graficando cuadrado");
+    } else if (figura.equals("rectangulo")) {
+        System.out.println("graficando rectangul");
+    } else if (figura.equals("poligono")) {
+        System.out.println("graficando poligono");
+    }
+    }
+
 :}
 
-terminal SUMA, RESTA, MULTIPLICACION, DIVISION, PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,
+terminal PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,
 NEGRO, CELESTE, ROSADO, MORADO, LINEA, CURVA, GRAFICAR, CIRCULO, CUADRADO, RECTANGULO, LINEA_OBJ, POLIGONO, ANIMAR,
 OBJETO, ANTERIOR, NUMERO;
 terminal String ID;
+terminal Double SUMA, RESTA, MULTIPLICACION, DIVISION;
 
 /* Non-terminal para las producciones */
-non terminal programa, instruccion, animar, forma, color, tipoanimacion, expresion, inicial, errorSintactico;
+non terminal programa, instruccion, animar, forma, color, tipoanimacion, inicial, errorSintactico;
+non terminal Double expresion;
 
 /* Precedencia de los operadores */
 precedence left SUMA, RESTA;
@@ -54,19 +75,19 @@ instruccion ::= GRAFICAR forma
 
 /* Formas existentes */
 forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:radio COMA color:col PARENTESIS_CIERRA {:
-    new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col);
+    new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col); graficar(id, posicionX, posicionY, radio, "rojo");
 :}
         | CUADRADO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:tamanio COMA color:col PARENTESIS_CIERRA {:
-    new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col);
+    new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col);// graficar("cuadrado");
 :}
         | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col);
+    new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col);// graficar("rectangulo");
 :}
         | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
-    new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col);
+    new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col); //graficar("linea");
 :}
         | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)cantLados, (Double)ancho, (Double)alto, (String)col);
+    new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col);// graficar("poligono");
 :};
 
 /* Colores disponibles */
@@ -84,12 +105,12 @@ animar ::= PARENTESIS_ABRE tipoanimacion COMA expresion COMA expresion COMA expr
 
 /* Tipos de animación */
 tipoanimacion ::= CURVA {: RESULT = "curva"; :}
-                | LINEA {: RESULT = "linea"; :};
+                | LINEA {: RESULT = "línea"; :};
 
 /* Expresiones aritméticas */
 expresion ::= expresion:e1 SUMA expresion:e2                 {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
              | expresion:e1 RESTA expresion:e2               {: RESULT = ((Number)e1).doubleValue() - ((Number)e2).doubleValue(); :}
              | expresion:e1 MULTIPLICACION expresion:e2      {: RESULT = ((Number)e1).doubleValue() * ((Number)e2).doubleValue(); :}
              | expresion:e1 DIVISION expresion:e2            {: RESULT = ((Number)e1).doubleValue() / ((Number)e2).doubleValue(); :}
-             | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = e; :}
-             | NUMERO:n                                      {: RESULT = n; :};
+             | PARENTESIS_ABRE expresion:e PARENTESIS_CIERRA {: RESULT = ((Number)e).doubleValue(); :}
+             | NUMERO:n                                      {: RESULT = ((Number)n).doubleValue(); :};

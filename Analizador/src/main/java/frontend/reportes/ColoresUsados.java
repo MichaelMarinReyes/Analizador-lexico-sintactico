@@ -46,6 +46,11 @@ public class ColoresUsados extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
         add(filtroOperadoresMatematicos, gridBagConstraints);
 
+        tablaColoresUsados = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         tablaColoresUsados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

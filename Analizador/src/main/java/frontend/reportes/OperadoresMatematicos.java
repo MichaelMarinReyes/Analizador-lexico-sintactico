@@ -1,5 +1,10 @@
 package frontend.reportes;
 
+import backend.lexico.Lexer;
+import backend.lexico.OperadorAritmetico;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -46,6 +51,11 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
         add(filtroOperadoresMatematicos, gridBagConstraints);
 
+        tablaOperadoresMatematicos = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         tablaOperadoresMatematicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -80,19 +90,28 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaOperadoresMatematicos() {
-        String[] columnas = {"Operador", "Línea", "Columna", "Ocurrencia"};
+        String[] columnas = {"Operador", "Símbolo", "Línea", "Columna", "Ocurrencia"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaOperadoresMatematicos.setModel(modelo);
 
-        TableModel modeloDatos = tablaOperadoresMatematicos.getModel();
-        /*for (int i = 0; i < AdministradorRestaurante.Listahistorial.size(); i++) {
-            RegistroHistorial historial = AdministradorRestaurante.Listahistorial.get(i);
-            modeloDatos.setValueAt(historial.getPiloto(), i, 0);
-            modeloDatos.setValueAt(historial.getDistancia(), i, 1);
-            modeloDatos.setValueAt(historial.getTotal(), i, 2);
-            modeloDatos.setValueAt(historial.getFechaInicial(), i, 3);
-            modeloDatos.setValueAt(historial.getFechaEntrega(), i, 4);
-        }    
-        AdministradorRestaurante.guardarSerializableHistorial();*/
+
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < tablaOperadoresMatematicos.getColumnCount(); i++) {
+            tablaOperadoresMatematicos.getColumnModel().getColumn(i).setCellRenderer(centrado);
+        }
+
+        for (int i = 0; i < Lexer.operadorAritmetico.size(); i++) {
+            OperadorAritmetico operadorAritmetico = Lexer.operadorAritmetico.get(i);
+            Object[] fila = {
+                    operadorAritmetico.getOperador(),
+                    operadorAritmetico.getSimbolo(),
+                    operadorAritmetico.getLinea(),
+                    operadorAritmetico.getColumna(),
+                    operadorAritmetico.getOcurrencia()
+            };
+            modelo.addRow(fila);
+        }
     }
 }

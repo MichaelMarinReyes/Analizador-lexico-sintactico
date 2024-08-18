@@ -2,11 +2,9 @@ package frontend;
 
 import backend.lexico.Lexer;
 import backend.sintactico.Parser;
-import frontend.graficas.PanelDibujo;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.StringReader;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
@@ -137,14 +135,7 @@ public class EditorPanel extends javax.swing.JPanel {
     private void ejecutarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarBotonActionPerformed
         String mensajeError = "Excepcipon en ejecutar";
         if (areaEditor.getText().isEmpty()) {
-            //JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
-            JFrame ventanaDibujos = new JFrame("Dibujos");
-            PanelDibujo panelDibujo = new PanelDibujo();
-            ventanaDibujos.add(panelDibujo);
-            ventanaDibujos.setSize(1200, 600);
-            ventanaDibujos.setLocationRelativeTo(this);
-            ventanaDibujos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            ventanaDibujos.setVisible(true);
+            JOptionPane.showMessageDialog(this, "No hay nada por analizar.\nPor favor escriba algo en el editor de texto", "Editor vacío", JOptionPane.INFORMATION_MESSAGE);
         } else {
             Parser parser = null;
             try {

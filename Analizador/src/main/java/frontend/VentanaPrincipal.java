@@ -34,7 +34,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setTitle("Generador de Figuras");
         initComponents();
         this.pintarPanel(editor);
-        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
