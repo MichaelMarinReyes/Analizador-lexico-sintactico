@@ -44,66 +44,14 @@ action code {:
     public void graficar() {
         JFrame ventana = new JFrame("Figuras generadas");
         PanelDibujo panelDibujo = new PanelDibujo();
-        GraficaCirculo graficaCirculo = new GraficaCirculo();
-        GraficaCuadrado graficaCuadrado = new GraficaCuadrado();
-        GraficaLinea graficaLinea = new GraficaLinea();
-        GraficaPoligono graficaPoligono = new GraficaPoligono();
 
-        if (!listaObjetosList.isEmpty()){
-            for (Object obj : listaObjetosList) {
-                if (obj instanceof Circulo) {
-                    Circulo circulo = (Circulo) obj;
-                    graficaCirculo.setPosicionX(circulo.getPosicionX());
-                    graficaCirculo.setPosicionY(circulo.getPosicionY());
-                    graficaCirculo.setRadio(circulo.getRadio());
-                    graficaCirculo.setColor(circulo.getColor());
-                    ventana.add(graficaCirculo);
-                } else if (obj instanceof Linea) {
-                    Linea linea = (Linea) obj;
-                    graficaLinea.setInicialX(linea.getPosicionInicialX());
-                    graficaLinea.setInicialY(linea.getPosicionInicialY());
-                    graficaLinea.setFinalX(linea.getPosicionFinalX());
-                    graficaLinea.setFinalY(linea.getPosicionFinalY());
-                    graficaLinea.setColor(linea.getColor());
-                    panelDibujo.add(graficaLinea);
-                } else if (obj instanceof Cuadrado) {
-                    Cuadrado cuadrado = (Cuadrado) obj;
-                    graficaCuadrado.setInicialX(cuadrado.getPosicionX());
-                    graficaCuadrado.setInicialY(cuadrado.getPosicionY());
-                    graficaCuadrado.setTamanio(cuadrado.getTamanio());
-                    graficaCuadrado.setColor(cuadrado.getColor());
-                    panelDibujo.add(graficaCuadrado);
-                } else if (obj instanceof Rectangulo) {
-                    Rectangulo rectangulo = (Rectangulo) obj;
-                    GraficaRectangulo graficaRectangulo = new GraficaRectangulo(rectangulo.getPosicionX(), rectangulo.getPosicionY(), rectangulo.getAncho(), rectangulo.getAlto(), rectangulo.getColor());
-                    panelDibujo.add(graficaRectangulo);
-                } else if (obj instanceof Poligono) {
-                    Poligono poligono = (Poligono) obj;
-                    graficaPoligono.setPosicionX(poligono.getPosicionX());
-                    graficaPoligono.setPosicionY(poligono.getPosicionY());
-                    graficaPoligono.setCantLados(poligono.getCantidadLados());
-                    graficaPoligono.setAncho(poligono.getAncho());
-                    graficaPoligono.setAlto(poligono.getAlto());
-                    graficaPoligono.setColor(poligono.getColor());
-                    panelDibujo.add(graficaPoligono);
-                }
-            }
-
-            ventana.add(graficaCuadrado);
-            ventana.add(graficaLinea);
-            ventana.add(graficaPoligono);
-            ventana.add(graficaCirculo);
-            ventana.repaint();
-            ventana.setSize(800, 600);
-            ventana.setLocationRelativeTo(null);
-            ventana.setVisible(true);
-            panelDibujo.repaint();
-            ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        }
+        panelDibujo.setListaFiguras(listaObjetosList);
+        ventana.setContentPane(panelDibujo);
+        ventana.setSize(800, 600);
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
-
-
 :}
 
 terminal PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,
