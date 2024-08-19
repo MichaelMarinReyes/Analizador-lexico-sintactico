@@ -9,9 +9,6 @@ import frontend.reportes.ReporteErrores;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -50,9 +47,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         menuOpciones = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         abrirBoton = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        botonExportarPng = new javax.swing.JMenuItem();
-        botonExportarPdf = new javax.swing.JMenuItem();
         editorTexto = new javax.swing.JMenu();
         reportesBoton = new javax.swing.JMenu();
         reportesOperadoresMatematicos = new javax.swing.JMenuItem();
@@ -84,30 +78,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(abrirBoton);
-
-        jMenu2.setBackground(new java.awt.Color(0, 153, 255));
-        jMenu2.setText("Exportar como");
-        jMenu2.setOpaque(true);
-
-        botonExportarPng.setBackground(new java.awt.Color(0, 153, 255));
-        botonExportarPng.setText("PNG");
-        botonExportarPng.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonExportarPngActionPerformed(evt);
-            }
-        });
-        jMenu2.add(botonExportarPng);
-
-        botonExportarPdf.setBackground(new java.awt.Color(0, 153, 255));
-        botonExportarPdf.setText("PDF");
-        botonExportarPdf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonExportarPdfActionPerformed(evt);
-            }
-        });
-        jMenu2.add(botonExportarPdf);
-
-        jMenu1.add(jMenu2);
 
         menuOpciones.add(jMenu1);
 
@@ -265,42 +235,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         pintarPanel(coloresUsados);
     }//GEN-LAST:event_reporteColoresUsadosActionPerformed
 
-    private void botonExportarPngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarPngActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        int seleccion = chooser.showSaveDialog(this);
-        
-        if (seleccion != JFileChooser.SAVE_DIALOG) {
-           File fichero = chooser.getSelectedFile();
-           try {
-               FileWriter fileWriter = new FileWriter(fichero);
-               fileWriter.write("aquí va el archivo png");
-           } catch (IOException e) {
-               JOptionPane.showMessageDialog(this, "Hubo un error al guardar imagen .png.", "ERROR", JOptionPane.ERROR_MESSAGE);
-           }
-            System.out.println("guardando");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se guardó el archivo .png.","Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_botonExportarPngActionPerformed
-
-    private void botonExportarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarPdfActionPerformed
-                JFileChooser chooser = new JFileChooser();
-        int seleccion = chooser.showSaveDialog(this);
-        
-        if (seleccion != JFileChooser.SAVE_DIALOG) {
-           File fichero = chooser.getSelectedFile();
-           try {
-               FileWriter fileWriter = new FileWriter(fichero);
-               fileWriter.write("aquí va el archivo pdf");
-           } catch (IOException e) {
-               JOptionPane.showMessageDialog(this, "Hubo un error al guardar documento .pdf.", "ERROR", JOptionPane.ERROR_MESSAGE);
-           }
-            System.out.println("guardando");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se guardó el archivo .pdf.","Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_botonExportarPdfActionPerformed
-
     private void reporteObjetosUsadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteObjetosUsadosActionPerformed
         ObjetosUsados objetosUsados = new ObjetosUsados();
         pintarPanel(objetosUsados);
@@ -321,12 +255,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem abrirBoton;
     private javax.swing.JMenu acerdaDeBoton;
     private javax.swing.JMenu ayudaBoton;
-    private javax.swing.JMenuItem botonExportarPdf;
-    private javax.swing.JMenuItem botonExportarPng;
     private javax.swing.JPanel contenedorPanel;
     private javax.swing.JMenu editorTexto;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar menuOpciones;
     private javax.swing.JMenuItem reporteAnimacionesUsadas;
     private javax.swing.JMenuItem reporteColoresUsados;

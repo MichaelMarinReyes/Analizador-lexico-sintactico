@@ -1,12 +1,20 @@
 package frontend.graficas;
 
 import backend.figuras.*;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
 import frontend.reportes.ColoresUsados;
-
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+
 
 /**
  * @author michael
@@ -98,6 +106,59 @@ public class PanelDibujo extends JPanel {
                 return Color.MAGENTA;
             default:
                 return Color.WHITE;
+        }
+    }
+
+    public void guardarComoPNG() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar como PNG");
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getName().toLowerCase().endsWith(".png")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".png");
+            }
+            BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = image.createGraphics();
+            this.paint(g2d);
+            g2d.dispose();
+
+            try {
+                ImageIO.write(image, "PNG", fileToSave);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void guardarComoPDF() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar como PDF");
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+            }
+
+            BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = image.createGraphics();
+            this.paint(g2d);
+            g2d.dispose();
+
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(fileToSave));
+                document.open();
+                Image pdfImage = Image.getInstance(image, null);
+                document.add(pdfImage);
+            } catch (DocumentException | IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                document.close();
+            }
         }
     }
 }

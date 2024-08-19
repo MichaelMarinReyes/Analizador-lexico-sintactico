@@ -110,7 +110,7 @@ public class ColoresUsados extends javax.swing.JPanel {
         int rosado = 0;
         int celeste = 0;
         int morado = 0;
-
+/*
         if (!figuras.isEmpty()) {
             for (int i = 0; i < figuras.size(); i++) {
                 if (figuras.get(i) instanceof Circulo) {
@@ -213,6 +213,6 @@ public class ColoresUsados extends javax.swing.JPanel {
             for (int i = 0; i < 5; i++) {
                 modelo.setValueAt("Amarillo", amarillo, 0);
             }
-        }
+        }*/
     }
 }

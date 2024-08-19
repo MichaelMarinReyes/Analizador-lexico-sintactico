@@ -15,6 +15,11 @@ import javax.swing.JFrame;
 import frontend.graficas.PanelDibujo;
 import backend.figuras.Figura;
 import frontend.graficas.PanelDibujo;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Color;
 
 class Parser;
 
@@ -43,14 +48,29 @@ action code {:
 
     public void graficar() {
         JFrame ventana = new JFrame("Figuras generadas");
-        PanelDibujo panelDibujo = new PanelDibujo();
+            PanelDibujo panelDibujo = new PanelDibujo();
 
-        panelDibujo.setListaFiguras(listaObjetosList);
-        ventana.setContentPane(panelDibujo);
-        ventana.setSize(800, 600);
-        ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);
-        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            panelDibujo.setListaFiguras(listaObjetosList);
+            ventana.setContentPane(panelDibujo);
+            ventana.setSize(800, 600);
+            ventana.setLocationRelativeTo(null);
+
+            JButton guardarPNGButton = new JButton("Guardar como PNG");
+            guardarPNGButton.addActionListener(e -> panelDibujo.guardarComoPNG());
+            JButton guardarPDFButton = new JButton("Guardar como PDF");
+            guardarPDFButton.addActionListener(e -> panelDibujo.guardarComoPDF());
+
+            JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            panelBotones.setBackground(Color.GRAY);
+            panelBotones.add(guardarPNGButton);
+            panelBotones.add(guardarPDFButton);
+
+            // Añadir el panel de botones al JFrame en BorderLayout.SOUTH
+            ventana.add(panelBotones, BorderLayout.SOUTH);
+
+            // Hacer visible la ventana
+            ventana.setVisible(true);
+            ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 :}
 
