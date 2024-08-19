@@ -25,6 +25,8 @@ class Parser;
 
 action code {:
 
+    private Figura ultimaFigura = null;
+
     public void report_error(String message, Object info) {
         if (info instanceof Symbol) {
              Symbol s = (Symbol) info;
@@ -48,30 +50,62 @@ action code {:
 
     public void graficar() {
         JFrame ventana = new JFrame("Figuras generadas");
-            PanelDibujo panelDibujo = new PanelDibujo();
+        PanelDibujo panelDibujo = new PanelDibujo();
 
-            panelDibujo.setListaFiguras(listaObjetosList);
-            ventana.setContentPane(panelDibujo);
-            ventana.setSize(800, 600);
-            ventana.setLocationRelativeTo(null);
+        panelDibujo.setListaFiguras(listaObjetosList);
+        ventana.setContentPane(panelDibujo);
+        ventana.setSize(800, 600);
+        ventana.setLocationRelativeTo(null);
 
-            JButton guardarPNGButton = new JButton("Guardar como PNG");
-            guardarPNGButton.addActionListener(e -> panelDibujo.guardarComoPNG());
-            JButton guardarPDFButton = new JButton("Guardar como PDF");
-            guardarPDFButton.addActionListener(e -> panelDibujo.guardarComoPDF());
+        JButton guardarPNGButton = new JButton("Guardar como PNG");
+        guardarPNGButton.addActionListener(e -> panelDibujo.guardarComoPNG());
+        JButton guardarPDFButton = new JButton("Guardar como PDF");
+        guardarPDFButton.addActionListener(e -> panelDibujo.guardarComoPDF());
 
-            JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            panelBotones.setBackground(Color.GRAY);
-            panelBotones.add(guardarPNGButton);
-            panelBotones.add(guardarPDFButton);
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBotones.setBackground(Color.GRAY);
+        panelBotones.add(guardarPNGButton);
+        panelBotones.add(guardarPDFButton);
 
-            // Añadir el panel de botones al JFrame en BorderLayout.SOUTH
-            ventana.add(panelBotones, BorderLayout.SOUTH);
-
-            // Hacer visible la ventana
-            ventana.setVisible(true);
-            ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.add(panelBotones, BorderLayout.SOUTH);
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    public void animar(String animacion) {
+        System.out.println("tipo animación: " + animacion);
+
+        if (ultimaFigura != null) {
+            if (animacion.equals("curva")) {
+                if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Circulo) {
+                    System.out.println("moviendo circulo en curva");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Linea) {
+                    System.out.println("moviendo linea en curva");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Cuadrado) {
+                    System.out.println("moviendo cuadrado en curva");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Rectangulo) {
+                    System.out.println("moviendo rectangulo en curva");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Poligono) {
+                    System.out.println("moviendo poligono en curva");
+                }
+            } else if (animacion.equals("línea")) {
+                if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Circulo) {
+                    System.out.println("moviendo circulo en línea");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Linea) {
+                    System.out.println("moviendo linea en línea");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Cuadrado) {
+                    System.out.println("moviendo cuadrado en línea");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Rectangulo) {
+                    System.out.println("moviendo rectangulo en línea");
+                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Poligono) {
+                    System.out.println("moviendo poligono en línea");
+                }
+            }
+        } else {
+            System.out.println("No hay figura para animar.");
+        }
+    }
+
 :}
 
 terminal PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,
@@ -99,24 +133,29 @@ programa ::= instruccion programa
            | /*EOF*/ {: graficar(); :};
 
 /* Instrucciones válidas */
-instruccion ::= GRAFICAR forma
+instruccion ::= GRAFICAR forma {: ultimaFigura = (Figura) RESULT; :}
               | ANIMAR OBJETO ANTERIOR animar;
 
 /* Formas existentes */
 forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:radio COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col)); //graficar();
+    listaObjetosList.add(new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col));
+    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | CUADRADO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:tamanio COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col));// graficar();
+    listaObjetosList.add(new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col));
+    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col)); //graficar();
+    listaObjetosList.add(new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col));
+    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col)); //graficar();
+    listaObjetosList.add(new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col));
+    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col)); //graficar();
+    listaObjetosList.add(new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col));
+    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :};
 
 /* Colores disponibles */
@@ -130,11 +169,12 @@ color ::= AZUL    {: RESULT = "azul"; :}
         | MORADO  {: RESULT = "morado"; :};
 
 /* Animación de objeto */
-animar ::= PARENTESIS_ABRE tipoanimacion COMA expresion COMA expresion COMA expresion PARENTESIS_CIERRA;
+animar ::= PARENTESIS_ABRE tipoanimacion:animacion COMA expresion COMA expresion COMA expresion PARENTESIS_CIERRA {: animar(String.valueOf(animacion)); :};
 
 /* Tipos de animación */
 tipoanimacion ::= CURVA {: RESULT = "curva"; :}
-                | LINEA {: RESULT = "línea"; :};
+                | LINEA {: RESULT = "línea"; :}
+                | error:err {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 1, 1, "Sintáctico", "Se esperaba curva o línea")); :};
 
 /* Expresiones aritméticas */
 expresion ::= expresion:e1 SUMA expresion:e2                 {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
