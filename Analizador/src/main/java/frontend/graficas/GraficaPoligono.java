@@ -1,19 +1,18 @@
 package frontend.graficas;
 
-
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import java.awt.Color;
 
-public class GraficaCirculo extends JPanel {
-    
+public class GraficaPoligono extends JPanel {
     private double posicionX;
     private double posicionY;
-    private double radio;
+    private int cantLados;
+    private double ancho;
+    private double alto;
     private String color;
 
-    public GraficaCirculo() {
-        System.out.println("cir");
+    public GraficaPoligono() {
+
     }
 
     public double getPosicionX() {
@@ -32,12 +31,28 @@ public class GraficaCirculo extends JPanel {
         this.posicionY = posicionY;
     }
 
-    public double getRadio() {
-        return radio;
+    public double getCantLados() {
+        return cantLados;
     }
 
-    public void setRadio(double radio) {
-        this.radio = radio;
+    public void setCantLados(int cantLados) {
+        this.cantLados = cantLados;
+    }
+
+    public double getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(double ancho) {
+        this.ancho = ancho;
+    }
+
+    public double getAlto() {
+        return alto;
+    }
+
+    public void setAlto(double alto) {
+        this.alto = alto;
     }
 
     public String getColor() {
@@ -51,6 +66,21 @@ public class GraficaCirculo extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        int[] xPoints = new int[cantLados];
+        int[] yPoints = new int[cantLados];
+
+        for (int i = 0; i < cantLados; i++) {
+            double angle = 2 * Math.PI * i / cantLados;
+            xPoints[i] = (int) (posicionX + ancho / 2 * Math.cos(angle));
+            yPoints[i] = (int) (posicionY + alto / 2 * Math.sin(angle));
+        }
+
+        Polygon polygon = new Polygon(xPoints, yPoints, cantLados);
+        g2d.setColor(Color.BLUE);
+        g2d.drawPolygon(polygon);
 
         switch (this.color) {
             case "rojo":
@@ -80,6 +110,7 @@ public class GraficaCirculo extends JPanel {
             default:
                 g.setColor(Color.WHITE);
         }
-        g.fillOval((int)this.posicionX, (int)this.posicionY, (int)this.radio * 2, (int)this.radio * 2);
+
+        g2d.fillPolygon(polygon);
     }
 }

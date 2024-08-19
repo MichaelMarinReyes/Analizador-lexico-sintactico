@@ -2,10 +2,12 @@ package frontend;
 
 import backend.lexico.Lexer;
 import backend.sintactico.Parser;
+import frontend.graficas.PanelDibujo;
+
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.StringReader;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
 
@@ -27,13 +29,6 @@ public class EditorPanel extends javax.swing.JPanel {
         scrollEditor.setRowHeaderView(numerarEditor);
         areaEditor.setBackground(Color.LIGHT_GRAY);
         mostrarColumna();
-        this.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                if (evt.getKeyCode() == KeyEvent.VK_F5) {
-                    ejecutarAnalisisLexico();
-                }
-            }
-        });
         this.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 if (evt.getKeyCode() == KeyEvent.VK_F4) {
@@ -168,22 +163,6 @@ public class EditorPanel extends javax.swing.JPanel {
     private javax.swing.JLabel mostrarColumnaLabel;
     private javax.swing.JScrollPane scrollEditor;
     // End of variables declaration//GEN-END:variables
-
-    public void ejecutarAnalisisLexico() {
-    /*    if (listaToken != null) {
-            listaToken.clear();
-        }
-        if (!areaConsola.getText().isEmpty()) {
-            //new AnalizadorLexico(listaToken).generarLexer();
-        }*/
-        //ColorearEditor.colorPalabras(areaEditor.getStyledDocument(), areaEditor.getText(), listaToken);
-
-    }
-
-    private void ejecutarAnalisisSintactico() {
-
-
-    }
 
     public void limpiarTodo() {
         areaEditor.setText("");

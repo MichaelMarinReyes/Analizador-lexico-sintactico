@@ -1,17 +1,19 @@
 package backend.figuras;
 
-public class Cuadrado {
+import java.awt.*;
+
+public class Cuadrado extends Figura {
     private String nombre;
     private double posicionX;
     private double posicionY;
-    private double tamañoLado;
+    private double tamanio;
     private String color;
 
-    public Cuadrado(String nombre, double posicionX, double posicionY, double tamañoLado, String color) {
+    public Cuadrado(String nombre, double posicionX, double posicionY, double tamanio, String color) {
         this.nombre = nombre;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
-        this.tamañoLado = tamañoLado;
+        this.tamanio = tamanio;
         this.color = color;
     }
 
@@ -39,12 +41,12 @@ public class Cuadrado {
         this.posicionY = posicionY;
     }
 
-    public double getTamañoLado() {
-        return tamañoLado;
+    public double getTamanio() {
+        return tamanio;
     }
 
-    public void setTamañoLado(double tamañoLado) {
-        this.tamañoLado = tamañoLado;
+    public void setTamanio(double tamañoLado) {
+        this.tamanio = tamañoLado;
     }
 
     public String getColor() {
@@ -54,6 +56,11 @@ public class Cuadrado {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    
+
+    @Override
+    public void paint(Graphics graphics) {
+        System.out.println("dibujando cuadrado");
+    }
+
+
 }

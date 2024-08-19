@@ -1,43 +1,54 @@
 package frontend.graficas;
 
-
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import java.awt.Color;
 
-public class GraficaCirculo extends JPanel {
-    
-    private double posicionX;
-    private double posicionY;
-    private double radio;
+public class GraficaLinea extends JPanel {
+
+    private double inicialX;
+    private double inicialY;
+    private double finalX;
+    private double finalY;
     private String color;
 
-    public GraficaCirculo() {
-        System.out.println("cir");
+    public GraficaLinea() {
+
     }
 
-    public double getPosicionX() {
-        return posicionX;
+    public static void paint(Graphics g, int posicionX, int posicionY, int x1, int y1) {
+        g.drawLine(posicionX, posicionY, x1, y1);
     }
 
-    public void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
+    public double getInicialX() {
+        return inicialX;
     }
 
-    public double getPosicionY() {
-        return posicionY;
+    public void setInicialX(double inicialX) {
+        this.inicialX = inicialX;
     }
 
-    public void setPosicionY(double posicionY) {
-        this.posicionY = posicionY;
+    public double getInicialY() {
+        return inicialY;
     }
 
-    public double getRadio() {
-        return radio;
+    public void setInicialY(double inicialY) {
+        this.inicialY = inicialY;
     }
 
-    public void setRadio(double radio) {
-        this.radio = radio;
+    public double getFinalX() {
+        return finalX;
+    }
+
+    public void setFinalX(double finalX) {
+        this.finalX = finalX;
+    }
+
+    public double getFinalY() {
+        return finalY;
+    }
+
+    public void setFinalY(double finalY) {
+        this.finalY = finalY;
     }
 
     public String getColor() {
@@ -80,6 +91,7 @@ public class GraficaCirculo extends JPanel {
             default:
                 g.setColor(Color.WHITE);
         }
-        g.fillOval((int)this.posicionX, (int)this.posicionY, (int)this.radio * 2, (int)this.radio * 2);
+
+        g.fillRect((int) inicialX, (int) inicialY, (int) finalX, (int) finalY);
     }
 }

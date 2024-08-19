@@ -1,43 +1,40 @@
 package frontend.graficas;
 
-
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import java.awt.Color;
 
-public class GraficaCirculo extends JPanel {
-    
-    private double posicionX;
-    private double posicionY;
-    private double radio;
+public class GraficaCuadrado extends JPanel {
+    private  double inicialX;
+    private  double inicialY;
+    private double tamanio;
     private String color;
 
-    public GraficaCirculo() {
-        System.out.println("cir");
+    public GraficaCuadrado() {
+
     }
 
-    public double getPosicionX() {
-        return posicionX;
+    public double getInicialX() {
+        return inicialX;
     }
 
-    public void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
+    public void setInicialX(double inicialX) {
+        this.inicialX = inicialX;
     }
 
-    public double getPosicionY() {
-        return posicionY;
+    public double getInicialY() {
+        return inicialY;
     }
 
-    public void setPosicionY(double posicionY) {
-        this.posicionY = posicionY;
+    public void setInicialY(double inicialY) {
+        this.inicialY = inicialY;
     }
 
-    public double getRadio() {
-        return radio;
+    public double getTamanio() {
+        return tamanio;
     }
 
-    public void setRadio(double radio) {
-        this.radio = radio;
+    public void setTamanio(double tamanio) {
+        this.tamanio = tamanio;
     }
 
     public String getColor() {
@@ -80,6 +77,6 @@ public class GraficaCirculo extends JPanel {
             default:
                 g.setColor(Color.WHITE);
         }
-        g.fillOval((int)this.posicionX, (int)this.posicionY, (int)this.radio * 2, (int)this.radio * 2);
+        g.fillRect((int)this.inicialX, (int)this.inicialY, (int)this.tamanio, this.color.length());
     }
 }

@@ -16,7 +16,7 @@ import backend.lexico.OperadorAritmetico;
 %ignorecase
 %cup
 
-ID = [a-zA-Z_][a-zA-Z0-9_]*
+ID = [a-zA-Z_][a-zA-Z0-9_]*[a-zA-Z0-9-]*
 
 %{
     public static ArrayList<ErrorReporte> errores = new ArrayList<>();

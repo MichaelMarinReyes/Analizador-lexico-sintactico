@@ -1,49 +1,108 @@
 package backend.sintactico;
 
 import java_cup.runtime.*;
+import java.util.List;
+import java.util.LinkedList;
+import frontend.graficas.GraficaCirculo;
+import frontend.graficas.GraficaLinea;
+import frontend.graficas.GraficaCuadrado;
+import frontend.graficas.GraficaRectangulo;
+import frontend.graficas.GraficaPoligono;
 import backend.figuras.*;
 import backend.lexico.Lexer;
 import backend.reportes.ErrorReporte;
 import javax.swing.JFrame;
+import frontend.graficas.PanelDibujo;
+import backend.figuras.Figura;
 import frontend.graficas.PanelDibujo;
 
 class Parser;
 
 action code {:
 
-    /**
-     * Método al que se llama automáticamente ante algún error sintáctico.
-     **/
-    public void syntax_error(Symbol s){
-        System.out.println("Error Sintáctico en la Línea " + (s.left) +
-            " Columna "+s.right+ ". No se esperaba este componente: " + s.value + ".");
+    public void report_error(String message, Object info) {
+        if (info instanceof Symbol) {
+             Symbol s = (Symbol) info;
+             Lexer.errores.add(new ErrorReporte(String.valueOf(s.value), (s.left+1), (s.right+1), "Sintáctico", message));
+             System.out.println("Error sintáctico en la Línea " + (s.left + 1) + " Columna " + (s.right + 1) + ". Se encontró: \"" + s.value + "\". " + message);
+        } else {
+             System.out.println("Error sintáctico: " + message);
+        }
     }
 
-    /**
-     * Método al que se llama cuando se identifica un error sintáctico en el que
-     * ya no es posible una recuperación de errores.
-     **/
-    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
-        System.out.println("Error sintáctico irrecuperable en la Línea " +
-            (s.left) + " Columna " + s.right + ". Componente " + s.value + " no reconocido.");
+    public void report_fatal_error(String message, Object info) throws Exception {
+         report_error(message, info);
+         throw new Exception("Error sintáctico irrecuperable.");
     }
 
-    public void graficar(String figura, double x, double y, double radio, String color) {
+    public List<Figura> listaObjetosList = new LinkedList<>();
 
-    if (figura.equals("linea")) {
-        System.out.println("graficando linea");
+    public List<Figura> getListaObjetosList() {
+            return listaObjetosList;
+    }
 
-        //ventanaDibujos.add(panelDibujo);
-    } else if (figura.equals("circulo")) {
-        System.out.println("graficando circulo");
-    } else if (figura.equals("cuadrado")) {
-        System.out.println("graficando cuadrado");
-    } else if (figura.equals("rectangulo")) {
-        System.out.println("graficando rectangul");
-    } else if (figura.equals("poligono")) {
-        System.out.println("graficando poligono");
+    public void graficar() {
+        JFrame ventana = new JFrame("Figuras generadas");
+        PanelDibujo panelDibujo = new PanelDibujo();
+        GraficaCirculo graficaCirculo = new GraficaCirculo();
+        GraficaCuadrado graficaCuadrado = new GraficaCuadrado();
+        GraficaLinea graficaLinea = new GraficaLinea();
+        GraficaPoligono graficaPoligono = new GraficaPoligono();
+
+        if (!listaObjetosList.isEmpty()){
+            for (Object obj : listaObjetosList) {
+                if (obj instanceof Circulo) {
+                    Circulo circulo = (Circulo) obj;
+                    graficaCirculo.setPosicionX(circulo.getPosicionX());
+                    graficaCirculo.setPosicionY(circulo.getPosicionY());
+                    graficaCirculo.setRadio(circulo.getRadio());
+                    graficaCirculo.setColor(circulo.getColor());
+                    ventana.add(graficaCirculo);
+                } else if (obj instanceof Linea) {
+                    Linea linea = (Linea) obj;
+                    graficaLinea.setInicialX(linea.getPosicionInicialX());
+                    graficaLinea.setInicialY(linea.getPosicionInicialY());
+                    graficaLinea.setFinalX(linea.getPosicionFinalX());
+                    graficaLinea.setFinalY(linea.getPosicionFinalY());
+                    graficaLinea.setColor(linea.getColor());
+                    panelDibujo.add(graficaLinea);
+                } else if (obj instanceof Cuadrado) {
+                    Cuadrado cuadrado = (Cuadrado) obj;
+                    graficaCuadrado.setInicialX(cuadrado.getPosicionX());
+                    graficaCuadrado.setInicialY(cuadrado.getPosicionY());
+                    graficaCuadrado.setTamanio(cuadrado.getTamanio());
+                    graficaCuadrado.setColor(cuadrado.getColor());
+                    panelDibujo.add(graficaCuadrado);
+                } else if (obj instanceof Rectangulo) {
+                    Rectangulo rectangulo = (Rectangulo) obj;
+                    GraficaRectangulo graficaRectangulo = new GraficaRectangulo(rectangulo.getPosicionX(), rectangulo.getPosicionY(), rectangulo.getAncho(), rectangulo.getAlto(), rectangulo.getColor());
+                    panelDibujo.add(graficaRectangulo);
+                } else if (obj instanceof Poligono) {
+                    Poligono poligono = (Poligono) obj;
+                    graficaPoligono.setPosicionX(poligono.getPosicionX());
+                    graficaPoligono.setPosicionY(poligono.getPosicionY());
+                    graficaPoligono.setCantLados(poligono.getCantidadLados());
+                    graficaPoligono.setAncho(poligono.getAncho());
+                    graficaPoligono.setAlto(poligono.getAlto());
+                    graficaPoligono.setColor(poligono.getColor());
+                    panelDibujo.add(graficaPoligono);
+                }
+            }
+
+            ventana.add(graficaCuadrado);
+            ventana.add(graficaLinea);
+            ventana.add(graficaPoligono);
+            ventana.add(graficaCirculo);
+            ventana.repaint();
+            ventana.setSize(800, 600);
+            ventana.setLocationRelativeTo(null);
+            ventana.setVisible(true);
+            panelDibujo.repaint();
+            ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        }
     }
-    }
+
 
 :}
 
@@ -66,8 +125,10 @@ start with inicial;
 inicial ::= programa;
 
 /* Programa con múltiples instrucciones */
-programa ::= instruccion
-           | errorSintactico programa;
+programa ::= instruccion programa
+           | error:err instruccion {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 2, 2, "Sintáctico", "Error en el comando")); :}
+           | ID:err {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 1, 1, "Sintáctico", "Se espera \"graficar\" o \"animar\"")); :}
+           | /*EOF*/ {: graficar(); :};
 
 /* Instrucciones válidas */
 instruccion ::= GRAFICAR forma
@@ -75,19 +136,19 @@ instruccion ::= GRAFICAR forma
 
 /* Formas existentes */
 forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:radio COMA color:col PARENTESIS_CIERRA {:
-    new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col); graficar(id, posicionX, posicionY, radio, "rojo");
+    listaObjetosList.add(new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col)); //graficar();
 :}
         | CUADRADO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:tamanio COMA color:col PARENTESIS_CIERRA {:
-    new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col);// graficar("cuadrado");
+    listaObjetosList.add(new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col));// graficar();
 :}
         | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col);// graficar("rectangulo");
+    listaObjetosList.add(new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col)); //graficar();
 :}
         | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
-    new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col); //graficar("linea");
+    listaObjetosList.add(new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col)); //graficar();
 :}
         | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col);// graficar("poligono");
+    listaObjetosList.add(new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col)); //graficar();
 :};
 
 /* Colores disponibles */

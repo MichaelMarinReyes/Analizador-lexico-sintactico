@@ -1,6 +1,8 @@
 package backend.figuras;
 
-public class Rectangulo {
+import java.awt.*;
+
+public class Rectangulo extends Figura {
     private String nombre;
     private double posicionX;
     private double posicionY;
@@ -64,6 +66,9 @@ public class Rectangulo {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    
+
+    @Override
+    public void paint(Graphics graphics) {
+        System.out.println("dibujando rectangulo");
+    }
 }

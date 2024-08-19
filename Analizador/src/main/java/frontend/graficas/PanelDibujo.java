@@ -12,18 +12,12 @@ import javax.swing.JPanel;
  */
 public class PanelDibujo extends JPanel {
 
-    private Figura figura;
-    
-    public void setFigura(Figura figura) {
-        this.figura = figura;
-        repaint();
+    public PanelDibujo() {
+        this.setBackground(Color.GRAY);
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (figura != null) {
-            figura.dibujar(g);
-        }
     }
 }

@@ -1,6 +1,8 @@
 package backend.figuras;
 
-public class Poligono {
+import java.awt.*;
+
+public class Poligono extends Figura {
     private String nombre;
     private double posicionX;
     private double posicionY;
@@ -74,6 +76,9 @@ public class Poligono {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    
+
+    @Override
+    public void paint(Graphics graphics) {
+        System.out.println("dibujando poligono");
+    }
 }

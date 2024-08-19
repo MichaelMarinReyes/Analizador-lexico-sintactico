@@ -1,7 +1,9 @@
 package frontend.reportes;
 
+import backend.figuras.*;
+import backend.sintactico.Parser;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -89,15 +91,40 @@ public class ObjetosUsados extends javax.swing.JPanel {
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaObjetosUsados.setModel(modelo);
 
-        TableModel modeloDatos = tablaObjetosUsados.getModel();
-        /*for (int i = 0; i < AdministradorRestaurante.Listahistorial.size(); i++) {
-            RegistroHistorial historial = AdministradorRestaurante.Listahistorial.get(i);
-            modeloDatos.setValueAt(historial.getPiloto(), i, 0);
-            modeloDatos.setValueAt(historial.getDistancia(), i, 1);
-            modeloDatos.setValueAt(historial.getTotal(), i, 2);
-            modeloDatos.setValueAt(historial.getFechaInicial(), i, 3);
-            modeloDatos.setValueAt(historial.getFechaEntrega(), i, 4);
-        }    
-        AdministradorRestaurante.guardarSerializableHistorial();*/
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        for (int i = 0; i < tablaObjetosUsados.getColumnCount(); i++) {
+            tablaObjetosUsados.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        int circulos = 0;
+        int lineas = 0;
+        int cuadrados = 0;
+        int rectangulos = 0;
+        int poligonos = 0;
+/*
+        // Accede a la lista a través del método estático
+        for (Object obj : Parser.getListaObjetosList()) {
+            if (obj instanceof Circulo) {
+                circulos++;
+            } else if (obj instanceof Linea) {
+                lineas++;
+            } else if (obj instanceof Cuadrado) {
+                cuadrados++;
+            } else if (obj instanceof Rectangulo) {
+                rectangulos++;
+            } else if (obj instanceof Poligono) {
+                poligonos++;
+            }
+        }*/
+
+        // Añade los datos a la tabla
+        modelo.addRow(new Object[]{"Circulo", circulos});
+        modelo.addRow(new Object[]{"Linea", lineas});
+        modelo.addRow(new Object[]{"Cuadrado", cuadrados});
+        modelo.addRow(new Object[]{"Rectangulo", rectangulos});
+        modelo.addRow(new Object[]{"Poligono", poligonos});
     }
+
 }

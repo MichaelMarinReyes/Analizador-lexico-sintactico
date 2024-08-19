@@ -3,6 +3,7 @@ package backend.figuras;
 import java.awt.*;
 
 public class Circulo extends Figura {
+
     private String nombre;
     private double posicionX;
     private double posicionY;
@@ -57,10 +58,8 @@ public class Circulo extends Figura {
         this.color = color;
     }
 
-
     @Override
-    public void dibujar(Graphics graphics) {
-        graphics.setColor(Color.getColor(this.color));
-        graphics.fillOval((int) posicionX, (int) posicionY, (int) radio, (int) radio);
+    public void paint(Graphics graphics) {
+        System.out.println("Graficando circulo");
     }
 }

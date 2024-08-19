@@ -1,6 +1,8 @@
 package backend.figuras;
 
-public class Linea {
+import java.awt.*;
+
+public class Linea extends Figura {
     private String nombre;
     private double posicionInicialX;
     private double posicionInicialY;
@@ -64,7 +66,9 @@ public class Linea {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    
-    
+
+    @Override
+    public void paint(Graphics graphics) {
+        System.out.println("dibujando linea");
+    }
 }
