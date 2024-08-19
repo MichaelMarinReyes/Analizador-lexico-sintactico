@@ -1,6 +1,7 @@
 package frontend.graficas;
 
 import backend.figuras.*;
+import frontend.reportes.ColoresUsados;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -74,6 +75,7 @@ public class PanelDibujo extends JPanel {
                 }
             }
         }
+        new ColoresUsados().recibirLista(listaFiguras);
     }
 
     private Color devolverColor(String color) {
