@@ -2,21 +2,26 @@ package frontend.reportes;
 
 import backend.lexico.Lexer;
 import backend.lexico.OperadorAritmetico;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.util.List;
 import javax.swing.table.TableRowSorter;
+import java.util.List;
 
 
 /**
- *
  * @author michael
  */
 public class OperadoresMatematicos extends javax.swing.JPanel {
 
-        private TableRowSorter<DefaultTableModel> sorter;
-        
+    private TableRowSorter<DefaultTableModel> sorter;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaOperadoresMatematicos;
+
+
     /**
      * Creates new form OperadoresMatemáticos
      */
@@ -59,21 +64,21 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
         add(filtroOperadoresMatematicos, gridBagConstraints);
 
-        tablaOperadoresMatematicos = new javax.swing.JTable(){
+        tablaOperadoresMatematicos = new javax.swing.JTable() {
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         tablaOperadoresMatematicos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(tablaOperadoresMatematicos);
 
@@ -100,12 +105,6 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
             sorter.setRowFilter(null);
         }
     }//GEN-LAST:event_filtroOperadoresMatematicosItemStateChanged
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaOperadoresMatematicos;
     // End of variables declaration//GEN-END:variables
 
     private void llenarComboBox() {

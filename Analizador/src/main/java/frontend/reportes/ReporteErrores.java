@@ -2,16 +2,20 @@ package frontend.reportes;
 
 import backend.lexico.Lexer;
 import backend.reportes.ErrorReporte;
-import javax.swing.SwingConstants;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author michael
  */
 public class ReporteErrores extends javax.swing.JPanel {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaErrores;
     /**
      * Creates new form OperadoresMatemáticos
      */
@@ -39,7 +43,7 @@ public class ReporteErrores extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         filtroOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
-        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -49,21 +53,21 @@ public class ReporteErrores extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
         add(filtroOperadoresMatematicos, gridBagConstraints);
 
-        tablaErrores = new javax.swing.JTable(){
+        tablaErrores = new javax.swing.JTable() {
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         tablaErrores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         tablaErrores.setSelectionForeground(new java.awt.Color(255, 255, 204));
         jScrollPane1.setViewportView(tablaErrores);
@@ -80,12 +84,6 @@ public class ReporteErrores extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 13, 20, 8);
         add(jScrollPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaErrores;
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaErrores() {
@@ -104,11 +102,11 @@ public class ReporteErrores extends javax.swing.JPanel {
         for (int i = 0; i < Lexer.errores.size(); i++) {
             ErrorReporte errorReporte = Lexer.errores.get(i);
             Object[] fila = {
-                errorReporte.getLexema(),
-                errorReporte.getLinea(),
-                errorReporte.getColumna(),
-                errorReporte.getTipo(),
-                errorReporte.getDescripcion()
+                    errorReporte.getLexema(),
+                    errorReporte.getLinea(),
+                    errorReporte.getColumna(),
+                    errorReporte.getTipo(),
+                    errorReporte.getDescripcion()
             };
             modelo.addRow(fila);
         }

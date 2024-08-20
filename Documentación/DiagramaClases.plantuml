@@ -1,0 +1,379 @@
+@startuml
+package bakend {
+
+    class Main {
+        + Main(): 
+        + main(String[]): void
+    }
+
+    class LeerArchivoTexto {
+        + LeerArchivoTexto(): 
+        - path: String
+        + abrirArchivo(String): String
+    }
+
+    package figuras {
+        class Circulo {
+            + Circulo(String, double, double, double, String): 
+            - color: String
+            - nombre: String
+            - posicionY: double
+            - posicionX: double
+            - radio: double
+            + setRadio(double): void
+            + getNombre(): String
+            + getRadio(): double
+            + getPosicionY(): double
+            + setNombre(String): void
+            + setPosicionY(double): void
+            + setPosicionX(double): void
+            + getColor(): String
+            + paint(Graphics): void
+            + getPosicionX(): double
+            + setColor(String): void
+        }
+
+        class Cuadrado {
+            + Cuadrado(String, double, double, double, String): 
+            - posicionX: double
+            - color: String
+            - nombre: String
+            - tamanio: double
+            - posicionY: double
+            + setPosicionY(double): void
+            + paint(Graphics): void
+            + getNombre(): String
+            + getPosicionX(): double
+            + setTamanio(double): void
+            + getTamanio(): double
+            + setPosicionX(double): void
+            + setNombre(String): void
+            + getPosicionY(): double
+            + setColor(String): void
+            + getColor(): String
+        }
+
+        class Figura {
+            + Figura(): 
+            - nombre: String
+            - color: String
+            + getNombre(): String
+            + paint(Graphics): void
+            + getColor(): String
+        }
+
+        class Linea {
+            + Linea(String, double, double, double, double, String): 
+            - posicionFinalX: double
+            - posicionFinalY: double
+            - nombre: String
+            - posicionInicialX: double
+            - color: String
+            - posicionInicialY: double
+            + getPosicionInicialX(): double
+            + getNombre(): String
+            + setPosicionFinalY(double): void
+            + setPosicionInicialX(double): void
+            + getColor(): String
+            + getPosicionFinalX(): double
+            + getPosicionInicialY(): double
+            + setPosicionFinalX(double): void
+            + paint(Graphics): void
+            + setPosicionInicialY(double): void
+            + setColor(String): void
+            + getPosicionFinalY(): double
+            + setNombre(String): void
+        }
+
+        class Poligono {
+            + Poligono(String, double, double, int, double, double, String): 
+            - color: String
+            - alto: double
+            - nombre: String
+            - cantidadLados: int
+            - posicionX: double
+            - posicionY: double
+            - ancho: double
+            + setCantidadLados(int): void
+            + setAlto(double): void
+            + getColor(): String
+            + setAncho(int): void
+            + getPosicionX(): double
+            + setPosicionY(double): void
+            + setNombre(String): void
+            + getAncho(): double
+            + setColor(String): void
+            + getPosicionY(): double
+            + getAlto(): double
+            + getNombre(): String
+            + paint(Graphics): void
+            + getCantidadLados(): int
+            + setPosicionX(double): void
+        }
+
+        class Rectangulo {
+            + Rectangulo(String, double, double, double, double, String): 
+            - nombre: String
+            - alto: double
+            - posicionY: double
+            - ancho: double
+            - color: String
+            - posicionX: double
+            + setColor(String): void
+            + setPosicionY(double): void
+            + paint(Graphics): void
+            + getPosicionX(): double
+            + setNombre(String): void
+            + setAncho(double): void
+            + setAlto(double): void
+            + setPosicionX(double): void
+            + getPosicionY(): double
+            + getAlto(): double
+            + getColor(): String
+            + getAncho(): double
+            + getNombre(): String
+        }
+
+        Figura <|-- Circulo
+        Figura <|-- Cuadrado
+        Figura <|-- Linea
+        Figura <|-- Poligono
+        Figura <|-- Rectangulo
+    }
+
+    package lexico {
+        class OperadorAritmetico {
+            + OperadorAritmetico(String, String, int, int, int): 
+            - linea: int
+            - operador: String
+            - columna: int
+            - ocurrencia: int
+            - simbolo: String
+            + setOcurrencia(int): void
+            + getColumna(): int
+            + getOcurrencia(): int
+            + getLinea(): int
+            + setLinea(int): void
+            + setOperador(String): void
+            + setColumna(int): void
+            + getOperador(): String
+            + setSimbolo(String): void
+            + getSimbolo(): String
+        }
+        
+        class Token {
+            + Token(String, String, int, int): 
+            - tipo: String
+            - lexema: String
+            - linea: int
+            - columna: int
+            + getLinea(): int
+            + setLexema(String): void
+            + setColumna(int): void
+            + getLexema(): String
+            + setLinea(int): void
+            + setTipo(String): void
+            + getColumna(): int
+            + getTipo(): String
+            + toString(): String
+        }
+
+        interface ParserSym {
+            + static final int LINEA = 13
+            + static final int MULTIPLICACION = 28
+            + static final int LINEA_OBJ = 19
+            + static final int DIVISION = 29
+            + static final int SUMA = 26
+            + static final int PARENTESIS_ABRE = 2
+            + static final int CURVA = 14
+            + static final int ANIMAR = 21
+            + static final int PARENTESIS_CIERRA = 3
+            + static final int CUADRADO = 17
+            + static final int OBJETO = 22
+            + static final int VERDE = 8
+            + static final int ID = 25
+            + static final int ROJO = 6
+            + static final int GRAFICAR = 15
+            + static final int ROSADO = 11
+            + static final int AMARILLO = 7
+            + static final int COMA = 4
+            + static final int EOF = 0
+            + static final int MORADO = 12
+            + static final int CELESTE = 10
+            + static final int NUMERO = 24
+            + static final int POLIGONO = 20
+            + static final int error = 1
+            + static final int CIRCULO = 16
+            + static final int AZUL = 5
+            + static final int ANTERIOR = 23
+            + static final int NEGRO = 9
+            + static final int RECTANGULO = 18
+            + static final int RESTA = 27
+            + static final int terminalNames[]
+        }
+
+
+        Lexer --|> ParserSym
+        Lexer ..> OperadorAritmetico
+        Lexer ..> Token
+        Lexer ..> ErrorReporte
+    }
+
+
+        Parser ..> Lexer
+        Parser ..> ErrorSintacticoReporte
+
+    package movimientos {
+        class CurvaMovimiento {
+            + CurvaMovimiento(): 
+            - distanciaMaximaY: int
+            - distanciaMaximaX: int
+            - posicionY: int
+            - movimientoY: int
+            - movimientoX: int
+            - posicionX: int
+            + setDistanciaMaximaY(int): void
+            + run(): void
+            + setPosicionX(int): void
+            + getPosicionX(): int
+            + getMovimientoX(): int
+            + setMovimientoY(int): void
+            + setDistanciaMaximaX(int): void
+            + getDistanciaMaximaY(): int
+            + getPosicionY(): int
+            + setPosicionY(int): void
+            + setMovimientoX(int): void
+            + getDistanciaMaximaX(): int
+            + getMovimientoY(): int
+            + mover(): void
+        }
+        
+        class CurvaSingleton {
+            - CurvaSingleton(): 
+            - circulo: CurvaMovimiento
+            - instancia: CurvaSingleton
+            + getCirculo(): CurvaMovimiento
+            + getInstancia(): CurvaSingleton
+        }
+    }
+
+    package reportes {
+        class ErrorReporte {
+            + ErrorReporte(String, int, int, String, String): 
+            - columna: int
+            - tipo: String
+            - descripcion: String
+            - linea: int
+            - lexema: String
+            + getLexema(): String
+            + getDescripcion(): String
+            + setLexema(String): void
+            + getTipo(): String
+            + setTipo(String): void
+            + setLinea(int): void
+            + toString(): String
+            + getLinea(): int
+            + getColumna(): int
+            + setColumna(int): void
+            + setDescripcion(String): void
+        }
+
+        class ErrorSintacticoReporte {
+            + ErrorSintacticoReporte(): 
+        }
+
+        ErrorReporte ..> Lexer
+        ErrorReporte ..> Token
+        ErrorSintacticoReporte ..> Parser        
+    }
+
+
+    package sintactico {
+        class Parser {
+            + Parser(): 
+            + parse(): void
+        }
+
+        Parser ..> Lexer
+        Parser ..> ErrorSintacticoReporte
+        Parser ..> PanelDibujo
+        Parser --> Figura
+    }
+
+    package frontend {
+        class EditorPanel {
+            + EditorPanel(): 
+            - areaEditor: JTextPane
+            - numerarEditor: NumeroLinea
+            - scrollEditor: JScrollPane
+            - limpiarBoton: JButton
+            - ejecutarBoton: JButton
+            - mostrarColumnaLabel: JLabel
+            + setAreaEditor(String): void
+            - ejecutarBotonActionPerformed(ActionEvent): void
+            - initComponents(): void
+            + limpiarTodo(): void
+            - limpiarBotonKeyPressed(KeyEvent): void
+            - mostrarColumna(): void
+            - limpiarBotonActionPerformed(ActionEvent): void
+        }
+
+        class NumeroLinea {
+            + NumeroLinea(JTextComponent): 
+            + NumeroLinea(JTextComponent, int): 
+            - lastHeight: int
+            - OUTER: Border
+            - HEIGHT: int
+            - lastLine: int
+            - fonts: HashMap<String, FontMetrics>
+            - digitAlignment: float
+            - borderGap: int
+            + RIGHT: float
+            + setFont(Font): void
+            + getPreferredSize(): Dimension
+            + paintComponent(Graphics): void
+            + getFontMetrics(Font): FontMetrics
+        }
+
+        class PanelDibujo {
+            + PanelDibujo(): 
+            - color: Color
+            + setColor(Color): void
+            + getColor(): Color
+            + paintComponent(Graphics): void
+        }
+
+        class ReportePanel {
+            + ReportePanel(): 
+            - tabla: JTable
+            - modelo: DefaultTableModel
+            + setModelo(DefaultTableModel): void
+            + getModelo(): DefaultTableModel
+            + actualizarReporte(): void
+        }
+
+        class VentanaPrincipal {
+            + VentanaPrincipal(): 
+            - panelDibujo: PanelDibujo
+            - editorPanel: EditorPanel
+            - reportePanel: ReportePanel
+            + getEditorPanel(): EditorPanel
+            + getReportePanel(): ReportePanel
+            + getPanelDibujo(): PanelDibujo
+        }
+
+        EditorPanel ..> NumeroLinea
+        PanelDibujo ..> ReportePanel
+        VentanaPrincipal ..> EditorPanel
+        VentanaPrincipal ..> ReportePanel
+        VentanaPrincipal ..> PanelDibujo
+    }
+
+    Main ..> EditorPanel
+    Main ..> PanelDibujo
+    Main ..> ReportePanel
+    Main ..> VentanaPrincipal
+    VentanaPrincipal ..> LeerArchivoTexto
+}
+
+@enduml

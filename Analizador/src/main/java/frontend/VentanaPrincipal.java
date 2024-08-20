@@ -1,29 +1,30 @@
 package frontend;
 
 import backend.LeerArchivoTexto;
-import frontend.reportes.AnimacionesUsadas;
-import frontend.reportes.ColoresUsados;
-import frontend.reportes.ObjetosUsados;
-import frontend.reportes.OperadoresMatematicos;
-import frontend.reportes.ReporteErrores;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.border.CompoundBorder;
+import frontend.reportes.*;
+
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 
 /**
- *
  * @author michael
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private EditorPanel editor = new EditorPanel();
-    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem abrirBoton;
+    private javax.swing.JPanel contenedorPanel;
+    private javax.swing.JMenu editorTexto;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar menuOpciones;
+    private javax.swing.JMenuItem reporteAnimacionesUsadas;
+    private javax.swing.JMenuItem reporteColoresUsados;
+    private javax.swing.JMenuItem reporteErrores;
+    private javax.swing.JMenuItem reporteObjetosUsados;
+    private javax.swing.JMenu reportesBoton;
+    private javax.swing.JMenuItem reportesOperadoresMatematicos;
     /**
      * Creates new form VentanaPrincipal
      */
@@ -190,20 +191,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         ReporteErrores reporteErrores = new ReporteErrores();
         pintarPanel(reporteErrores);
     }//GEN-LAST:event_reporteErroresActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem abrirBoton;
-    private javax.swing.JPanel contenedorPanel;
-    private javax.swing.JMenu editorTexto;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar menuOpciones;
-    private javax.swing.JMenuItem reporteAnimacionesUsadas;
-    private javax.swing.JMenuItem reporteColoresUsados;
-    private javax.swing.JMenuItem reporteErrores;
-    private javax.swing.JMenuItem reporteObjetosUsados;
-    private javax.swing.JMenu reportesBoton;
-    private javax.swing.JMenuItem reportesOperadoresMatematicos;
     // End of variables declaration//GEN-END:variables
 
     private void pintarPanel(Component panel) {

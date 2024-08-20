@@ -1,12 +1,11 @@
 package frontend.graficas;
 
 
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import java.awt.Color;
 
 public class GraficaCirculo extends JPanel {
-    
+
     private double posicionX;
     private double posicionY;
     private double radio;
@@ -80,6 +79,6 @@ public class GraficaCirculo extends JPanel {
             default:
                 g.setColor(Color.WHITE);
         }
-        g.fillOval((int)this.posicionX, (int)this.posicionY, (int)this.radio * 2, (int)this.radio * 2);
+        g.fillOval((int) this.posicionX, (int) this.posicionY, (int) this.radio * 2, (int) this.radio * 2);
     }
 }

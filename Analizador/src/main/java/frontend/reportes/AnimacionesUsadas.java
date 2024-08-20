@@ -4,10 +4,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
- *
  * @author michael
  */
 public class AnimacionesUsadas extends javax.swing.JPanel {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaAnimacionesUsadas;
+
 
     /**
      * Creates new form OperadoresMatemáticos
@@ -34,21 +38,21 @@ public class AnimacionesUsadas extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(844, 590));
         setLayout(new java.awt.GridBagLayout());
 
-        tablaAnimacionesUsadas = new javax.swing.JTable(){
+        tablaAnimacionesUsadas = new javax.swing.JTable() {
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         tablaAnimacionesUsadas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object[][]{
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String[]{
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(tablaAnimacionesUsadas);
 
@@ -64,11 +68,6 @@ public class AnimacionesUsadas extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 13, 20, 8);
         add(jScrollPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaAnimacionesUsadas;
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaAnimacionesUsadas() {

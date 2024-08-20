@@ -2,22 +2,27 @@ package frontend;
 
 import backend.lexico.Lexer;
 import backend.sintactico.Parser;
-import frontend.graficas.PanelDibujo;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.io.StringReader;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.StringReader;
 
 /**
- *
  * @author michael
  */
 public class EditorPanel extends javax.swing.JPanel {
 
     private NumeroLinea numerarEditor;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane areaEditor;
+    private javax.swing.JButton ejecutarBoton;
+    private javax.swing.JButton limpiarBoton;
+    private javax.swing.JLabel mostrarColumnaLabel;
+    private javax.swing.JScrollPane scrollEditor;
+
 
     /**
      * Creates new form PruebaEditor
@@ -154,14 +159,6 @@ public class EditorPanel extends javax.swing.JPanel {
             limpiarTodo();
         }
     }//GEN-LAST:event_limpiarBotonKeyPressed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextPane areaEditor;
-    private javax.swing.JButton ejecutarBoton;
-    private javax.swing.JButton limpiarBoton;
-    private javax.swing.JLabel mostrarColumnaLabel;
-    private javax.swing.JScrollPane scrollEditor;
     // End of variables declaration//GEN-END:variables
 
     public void limpiarTodo() {

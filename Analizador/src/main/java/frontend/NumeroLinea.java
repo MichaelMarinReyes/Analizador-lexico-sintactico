@@ -1,24 +1,29 @@
 package frontend;
 
-import java.awt.*;
-import java.beans.*;
-import java.util.HashMap;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
 public class NumeroLinea extends JPanel implements CaretListener, DocumentListener, PropertyChangeListener {
 
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
+    private final static Border OUTER = new MatteBorder(0, 0, 0, 2, Color.BLACK);
+    private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
     //private Color color1 = new Color(7,86,100); COLOR ORIGINAL DE LA CLASE
     private Color color1 = new Color(255, 0, 0); //COLOR ROJO
-    private final static Border OUTER = new MatteBorder(0, 0, 0, 2,Color.BLACK);
-
-    private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
-
     private JTextComponent component;
 
     private boolean updateFont;
@@ -27,19 +32,19 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
     private float digitAlignment;
     private int minimumDisplayDigits;
 
-    
+
     private int lastDigits;
     private int lastHeight;
     private int lastLine;
 
     private HashMap<String, FontMetrics> fonts;
 
-    
+
     public NumeroLinea(JTextComponent component) {
         this(component, 3);
     }
 
-    
+
     public NumeroLinea(JTextComponent component, int minimumDisplayDigits) {
         this.component = component;
 
@@ -55,22 +60,22 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
         component.addPropertyChangeListener("font", this);
     }
 
-    
+
     public boolean getUpdateFont() {
         return updateFont;
     }
 
-    
+
     public void setUpdateFont(boolean updateFont) {
         this.updateFont = updateFont;
     }
 
-    
+
     public int getBorderGap() {
         return borderGap;
     }
 
-    
+
     public void setBorderGap(int borderGap) {
         this.borderGap = borderGap;
         Border inner = new EmptyBorder(0, borderGap, 0, borderGap);
@@ -79,37 +84,38 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
         setPreferredWidth();
     }
 
-   
+
     public Color getCurrentLineForeground() {
         return currentLineForeground == null ? getForeground() : currentLineForeground;
     }
 
-    
+
     public void setCurrentLineForeground(Color currentLineForeground) {
         this.currentLineForeground = currentLineForeground;
     }
 
-    
+
     public float getDigitAlignment() {
         return digitAlignment;
     }
+
     public void setDigitAlignment(float digitAlignment) {
         this.digitAlignment
                 = digitAlignment > 1.0f ? 1.0f : digitAlignment < 0.0f ? -1.0f : digitAlignment;
     }
 
-   
+
     public int getMinimumDisplayDigits() {
         return minimumDisplayDigits;
     }
 
-   
+
     public void setMinimumDisplayDigits(int minimumDisplayDigits) {
         this.minimumDisplayDigits = minimumDisplayDigits;
         setPreferredWidth();
     }
 
-    
+
     private void setPreferredWidth() {
         Element root = component.getDocument().getDefaultRootElement();
         int lines = root.getElementCount();
@@ -185,14 +191,14 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
     }
 
     /*
-	 *  Determine the X offset to properly align the line number when drawn
+     *  Determine the X offset to properly align the line number when drawn
      */
     private int getOffsetX(int availableWidth, int stringWidth) {
         return (int) ((availableWidth - stringWidth) * digitAlignment);
     }
 
     /*
-	 *  Determine the Y offset for the current row
+     *  Determine the Y offset for the current row
      */
     private int getOffsetY(int rowStartOffset, FontMetrics fontMetrics)
             throws BadLocationException {
@@ -240,7 +246,7 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
         return y - descent;
     }
 
-//
+    //
 //  Implement CaretListener interface
 //
     @Override
@@ -258,7 +264,7 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
         }
     }
 
-//
+    //
 //  Implement DocumentListener interface
 //
     @Override
@@ -277,8 +283,8 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
     }
 
     /*
-	 *  A document change may affect the number of displayed lines of text.
-	 *  Therefore the lines numbers will also change.
+     *  A document change may affect the number of displayed lines of text.
+     *  Therefore the lines numbers will also change.
      */
     private void documentChanged() {
         //  View of the component has not been updated at the time
@@ -297,7 +303,8 @@ public class NumeroLinea extends JPanel implements CaretListener, DocumentListen
                         lastHeight = rect.y;
                     }
                 } catch (BadLocationException ex) {
-                    /* nothing to do */ }
+                    /* nothing to do */
+                }
             }
         });
     }

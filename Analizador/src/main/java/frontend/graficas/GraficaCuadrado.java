@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GraficaCuadrado extends JPanel {
-    private  double inicialX;
-    private  double inicialY;
+    private double inicialX;
+    private double inicialY;
     private double tamanio;
     private String color;
 
@@ -77,6 +77,6 @@ public class GraficaCuadrado extends JPanel {
             default:
                 g.setColor(Color.WHITE);
         }
-        g.fillRect((int)this.inicialX, (int)this.inicialY, (int)this.tamanio, this.color.length());
+        g.fillRect((int) this.inicialX, (int) this.inicialY, (int) this.tamanio, this.color.length());
     }
 }

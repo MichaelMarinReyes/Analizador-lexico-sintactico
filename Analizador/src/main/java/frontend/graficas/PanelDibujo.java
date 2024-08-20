@@ -1,19 +1,19 @@
 package frontend.graficas;
 
 import backend.figuras.*;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
-import frontend.reportes.ColoresUsados;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
 
 
 /**
