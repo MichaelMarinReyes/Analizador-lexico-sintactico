@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Color;
+import frontend.reportes.AnimacionesUsadas;
 
 class Parser;
 
@@ -65,22 +66,27 @@ action code {:
     }
 
     public void animar(String animacion) {
-        if ((listaObjetosList.size() - 1) > 0 ) {
-            ultimaFigura = listaObjetosList.get(listaObjetosList.size() - 1);
-        }
+         if ((listaObjetosList.size() - 1) > 0 ) {
+               ultimaFigura = listaObjetosList.get(listaObjetosList.size() - 1);
+         }
 
-        if (!listaObjetosList.isEmpty()) {
-            String tipoFigura = ultimaFigura.getClass().getSimpleName();
-            String tipoAnimacion = animacion.equals("curva") ? "curva" : "línea";
-            System.out.println("moviendo " + tipoFigura.toLowerCase() + " en " + tipoAnimacion);
-        }
+         if (!listaObjetosList.isEmpty()) {
+              String tipoFigura = ultimaFigura.getClass().getSimpleName();
+              String tipoAnimacion = " ";
 
-        if (ultimaFigura == null) {
-            System.out.println("No hay figura para animar.");
-            return;
-        }
+              if (animacion.equals("curva")) {
+                    AnimacionesUsadas.curva++;
+              } else if(animacion.equals("línea")) {
+                    AnimacionesUsadas.linea++;
+              }
+                    System.out.println("moviendo " + tipoFigura.toLowerCase() + " en " + tipoAnimacion);
+         }
+
+         if (ultimaFigura == null) {
+              System.out.println("No hay figura para animar.");
+              return;
+         }
     }
-
 :}
 
 terminal PARENTESIS_ABRE, PARENTESIS_CIERRA, COMA, AZUL, ROJO, AMARILLO, VERDE,

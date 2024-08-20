@@ -1,12 +1,16 @@
 package frontend.reportes;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @author michael
  */
 public class AnimacionesUsadas extends javax.swing.JPanel {
+
+    public static int curva;
+    public static int linea;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
@@ -75,15 +79,13 @@ public class AnimacionesUsadas extends javax.swing.JPanel {
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaAnimacionesUsadas.setModel(modelo);
 
-        TableModel modeloDatos = tablaAnimacionesUsadas.getModel();
-        /*for (int i = 0; i < AdministradorRestaurante.Listahistorial.size(); i++) {
-            RegistroHistorial historial = AdministradorRestaurante.Listahistorial.get(i);
-            modeloDatos.setValueAt(historial.getPiloto(), i, 0);
-            modeloDatos.setValueAt(historial.getDistancia(), i, 1);
-            modeloDatos.setValueAt(historial.getTotal(), i, 2);
-            modeloDatos.setValueAt(historial.getFechaInicial(), i, 3);
-            modeloDatos.setValueAt(historial.getFechaEntrega(), i, 4);
-        }    
-        AdministradorRestaurante.guardarSerializableHistorial();*/
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < tablaAnimacionesUsadas.getColumnCount(); i++) {
+            tablaAnimacionesUsadas.getColumnModel().getColumn(i).setCellRenderer(centrado);
+        }
+        modelo.addRow(new Object[]{"Curva", curva});
+        modelo.addRow(new Object[]{"Línea", linea});
     }
 }
