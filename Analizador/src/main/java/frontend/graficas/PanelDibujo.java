@@ -20,10 +20,14 @@ import com.itextpdf.text.Image;
  * @author michael
  */
 public class PanelDibujo extends JPanel {
-    private List<Figura> listaFiguras;
+    public static List<Figura> listaFiguras;
 
     public PanelDibujo() {
         this.setBackground(Color.GRAY);
+    }
+
+    public List<Figura> getListaFiguras() {
+        return listaFiguras;
     }
 
     public void setListaFiguras(List<Figura> listaFiguras) {
@@ -34,7 +38,6 @@ public class PanelDibujo extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         if (listaFiguras != null) {
             for (Figura figura : listaFiguras) {
                 if (figura instanceof Circulo) {
@@ -83,7 +86,6 @@ public class PanelDibujo extends JPanel {
                 }
             }
         }
-        new ColoresUsados().recibirLista(listaFiguras);
     }
 
     private Color devolverColor(String color) {

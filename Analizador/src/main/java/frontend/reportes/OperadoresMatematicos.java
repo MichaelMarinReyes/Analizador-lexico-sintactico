@@ -6,7 +6,12 @@ import backend.lexico.OperadorAritmetico;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.swing.table.TableRowSorter;
+
 
 /**
  *
@@ -14,11 +19,14 @@ import javax.swing.table.TableModel;
  */
 public class OperadoresMatematicos extends javax.swing.JPanel {
 
+        private TableRowSorter<DefaultTableModel> sorter;
+        
     /**
      * Creates new form OperadoresMatemáticos
      */
     public OperadoresMatematicos() {
         initComponents();
+        llenarComboBox();
         actualizarTablaOperadoresMatematicos();
     }
 
@@ -41,7 +49,11 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         filtroOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
-        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        filtroOperadoresMatematicos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                filtroOperadoresMatematicosItemStateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -82,6 +94,17 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
         add(jScrollPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void filtroOperadoresMatematicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_filtroOperadoresMatematicosItemStateChanged
+        if (sorter == null) return;
+
+        String filtro = filtroOperadoresMatematicos.getSelectedItem().toString();
+        if (!filtro.equals("Todos")) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0));
+        } else {
+            sorter.setRowFilter(null);
+        }
+    }//GEN-LAST:event_filtroOperadoresMatematicosItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
@@ -89,11 +112,20 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
     private javax.swing.JTable tablaOperadoresMatematicos;
     // End of variables declaration//GEN-END:variables
 
+    private void llenarComboBox() {
+        filtroOperadoresMatematicos.addItem("Todos");
+        filtroOperadoresMatematicos.addItem("Suma");
+        filtroOperadoresMatematicos.addItem("Resta");
+        filtroOperadoresMatematicos.addItem("Multiplicación");
+        filtroOperadoresMatematicos.addItem("División");
+    }
+
     public void actualizarTablaOperadoresMatematicos() {
-        String[] columnas = {"Operador", "Símbolo", "Línea", "Columna", "Ocurrencia"};
+        String[] columnas = {"Operación", "Símbolo", "Línea", "Columna", "Ocurrencia"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaOperadoresMatematicos.setModel(modelo);
-
+        sorter = new TableRowSorter<>(modelo);
+        tablaOperadoresMatematicos.setRowSorter(sorter);
 
         DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
         centrado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -102,16 +134,22 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
             tablaOperadoresMatematicos.getColumnModel().getColumn(i).setCellRenderer(centrado);
         }
 
-        for (int i = 0; i < Lexer.operadorAritmetico.size(); i++) {
-            OperadorAritmetico operadorAritmetico = Lexer.operadorAritmetico.get(i);
+        // Asegúrate de que los datos se están cargando correctamente
+        List<OperadorAritmetico> operadores = Lexer.operadorAritmetico;
+        for (OperadorAritmetico operador : operadores) {
             Object[] fila = {
-                    operadorAritmetico.getOperador(),
-                    operadorAritmetico.getSimbolo(),
-                    operadorAritmetico.getLinea(),
-                    operadorAritmetico.getColumna(),
-                    operadorAritmetico.getOcurrencia()
+                    operador.getOperador(),
+                    operador.getSimbolo(),
+                    operador.getLinea(),
+                    operador.getColumna(),
+                    operador.getOcurrencia()
             };
             modelo.addRow(fila);
+        }
+
+        // Imprime los datos de la columna "Operación" para verificar su formato
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            System.out.println("Operación en fila " + i + ": " + modelo.getValueAt(i, 0));
         }
     }
 }

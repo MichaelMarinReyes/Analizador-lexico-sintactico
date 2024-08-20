@@ -54,8 +54,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         reporteObjetosUsados = new javax.swing.JMenuItem();
         reporteAnimacionesUsadas = new javax.swing.JMenuItem();
         reporteErrores = new javax.swing.JMenuItem();
-        ayudaBoton = new javax.swing.JMenu();
-        acerdaDeBoton = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 700));
@@ -138,22 +136,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         menuOpciones.add(reportesBoton);
 
-        ayudaBoton.setText("Ayuda");
-        ayudaBoton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ayudaBotonMouseClicked(evt);
-            }
-        });
-        menuOpciones.add(ayudaBoton);
-
-        acerdaDeBoton.setText("Acerca de");
-        acerdaDeBoton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                acerdaDeBotonMouseClicked(evt);
-            }
-        });
-        menuOpciones.add(acerdaDeBoton);
-
         setJMenuBar(menuOpciones);
 
         pack();
@@ -184,47 +166,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.pintarPanel(editor);
     }//GEN-LAST:event_editorTextoMouseClicked
 
-    private void ayudaBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ayudaBotonMouseClicked
-        String ayuda = "\n   * Presione Archivo y Cargar archivo para cargar un archivo de texto nuevo.\n"
-                + "   * Presione Editor para regresar a la pestaña de editor de texto.\n"
-                + "   * Presione Reportes para ver la tabla de reportes con los tokens encontrados en el documento.\n"
-                + "   * Presione Ayuda para ver ayuda.\n"
-                + "   * Presione Acerda de para ver datos del desarrollador.\n\n"
-                + "   * Comuniquese con el desarrollador para más información.";
-
-        JTextArea textoAyuda = new JTextArea(ayuda);
-        textoAyuda.setBackground(Color.LIGHT_GRAY);
-        textoAyuda.setForeground(Color.BLUE);
-        textoAyuda.setBorder(new CompoundBorder());
-        textoAyuda.setFont(new Font("Bold", Font.BOLD, 12) {
-        });
-        textoAyuda.setEditable(false);
-        JDialog dialogoAyuda = new JDialog(this, true);
-        dialogoAyuda.add(textoAyuda);
-        dialogoAyuda.setTitle("Ayuda");
-        dialogoAyuda.setSize(750, 200);
-        dialogoAyuda.setLocationRelativeTo(this);
-        dialogoAyuda.setVisible(true);
-    }//GEN-LAST:event_ayudaBotonMouseClicked
-
-    private void acerdaDeBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acerdaDeBotonMouseClicked
-        /*String ayuda /*= "\n   \t   Parser-py\n   \t   Versión 2.0\n\n   Lenguajes Formales y de programaación\n\n   Carné: 201831260\n   Nombre: Michael Kristopher Marín Reyes";
-
-        JTextArea textoAcercaDe = new JTextArea(ayuda);
-        textoAcercaDe.setBackground(Color.LIGHT_GRAY);
-        textoAcercaDe.setForeground(Color.BLUE);
-        textoAcercaDe.setBorder(new CompoundBorder());
-        textoAcercaDe.setFont(new Font("Bold", Font.BOLD, 12) {
-        });
-        textoAcercaDe.setEditable(false);
-        JDialog dialogoAyuda = new JDialog(this, true);
-        dialogoAyuda.add(textoAcercaDe);
-        dialogoAyuda.setTitle("Acerca de");
-        dialogoAyuda.setSize(320, 200);
-        dialogoAyuda.setLocationRelativeTo(this);
-        dialogoAyuda.setVisible(true);*/
-    }//GEN-LAST:event_acerdaDeBotonMouseClicked
-
     private void reportesOperadoresMatematicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesOperadoresMatematicosActionPerformed
         OperadoresMatematicos operadoresMatemáticos = new OperadoresMatematicos();
         pintarPanel(operadoresMatemáticos);
@@ -253,8 +194,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem abrirBoton;
-    private javax.swing.JMenu acerdaDeBoton;
-    private javax.swing.JMenu ayudaBoton;
     private javax.swing.JPanel contenedorPanel;
     private javax.swing.JMenu editorTexto;
     private javax.swing.JMenu jMenu1;

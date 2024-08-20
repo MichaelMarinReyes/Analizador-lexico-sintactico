@@ -2,11 +2,15 @@ package frontend.reportes;
 
 import backend.figuras.*;
 import backend.sintactico.Parser;
+import frontend.graficas.PanelDibujo;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- *
  * @author michael
  */
 public class ObjetosUsados extends javax.swing.JPanel {
@@ -29,24 +33,12 @@ public class ObjetosUsados extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        filtroOperadoresMatematicos = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaObjetosUsados = new javax.swing.JTable();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(844, 590));
         setLayout(new java.awt.GridBagLayout());
-
-        filtroOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
-        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 455;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
-        add(filtroOperadoresMatematicos, gridBagConstraints);
 
         tablaObjetosUsados = new javax.swing.JTable(){
             public boolean isCellEditable(int row, int col) {
@@ -81,50 +73,52 @@ public class ObjetosUsados extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaObjetosUsados;
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaObjetosUsados() {
-        String[] columnas = {"Objeto", "Cantidad de uso"};
+        String[] columnas = {"Objeto", "Creados"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
         tablaObjetosUsados.setModel(modelo);
 
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);
+        tablaObjetosUsados.setDefaultRenderer(Object.class, centrado);
 
-        for (int i = 0; i < tablaObjetosUsados.getColumnCount(); i++) {
-            tablaObjetosUsados.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        Map<String, Integer> objetosUsados = new HashMap<>();
+        String[] objetos = {"Círculo", "Cuadrado", "Línea", "Rectángulo", "Polígono"};
+
+        for (String objeto : objetos) {
+            objetosUsados.put(objeto, 0);
         }
 
-        int circulos = 0;
-        int lineas = 0;
-        int cuadrados = 0;
-        int rectangulos = 0;
-        int poligonos = 0;
-/*
-        // Accede a la lista a través del método estático
-        for (Object obj : Parser.getListaObjetosList()) {
-            if (obj instanceof Circulo) {
-                circulos++;
-            } else if (obj instanceof Linea) {
-                lineas++;
-            } else if (obj instanceof Cuadrado) {
-                cuadrados++;
-            } else if (obj instanceof Rectangulo) {
-                rectangulos++;
-            } else if (obj instanceof Poligono) {
-                poligonos++;
-            }
-        }*/
+        if (!PanelDibujo.listaFiguras.isEmpty()) {
+            for (Figura figura : PanelDibujo.listaFiguras) {
+                String tipoFigura = "";
 
-        // Añade los datos a la tabla
-        modelo.addRow(new Object[]{"Circulo", circulos});
-        modelo.addRow(new Object[]{"Linea", lineas});
-        modelo.addRow(new Object[]{"Cuadrado", cuadrados});
-        modelo.addRow(new Object[]{"Rectangulo", rectangulos});
-        modelo.addRow(new Object[]{"Poligono", poligonos});
+                if (figura instanceof Circulo) {
+                    tipoFigura = "Círculo";
+                } else if (figura instanceof Cuadrado) {
+                    tipoFigura = "Cuadrado";
+                } else if (figura instanceof Linea) {
+                    tipoFigura = "Línea";
+                } else if (figura instanceof Rectangulo) {
+                    tipoFigura = "Rectángulo";
+                } else if (figura instanceof Poligono) {
+                    tipoFigura = "Polígono";
+                }
+
+                if (!tipoFigura.isEmpty() && objetosUsados.containsKey(tipoFigura)) {
+                    objetosUsados.put(tipoFigura, objetosUsados.get(tipoFigura) + 1);
+                }
+            }
+        }
+
+        for (String objeto : objetos) {
+            Object[] fila = {objeto, objetosUsados.get(objeto)};
+            modelo.addRow(fila);
+        }
     }
 
 }

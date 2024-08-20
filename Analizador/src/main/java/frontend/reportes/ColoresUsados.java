@@ -1,19 +1,21 @@
 package frontend.reportes;
 
 import backend.figuras.*;
+import frontend.graficas.PanelDibujo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author michael
  */
 public class ColoresUsados extends javax.swing.JPanel {
 
-    private List<Figura> figuras;
 
     /**
      * Creates new form OperadoresMatemáticos
@@ -33,7 +35,6 @@ public class ColoresUsados extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        filtroOperadoresMatematicos = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaColoresUsados = new javax.swing.JTable();
 
@@ -41,32 +42,21 @@ public class ColoresUsados extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(844, 590));
         setLayout(new java.awt.GridBagLayout());
 
-        filtroOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
-        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 455;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
-        add(filtroOperadoresMatematicos, gridBagConstraints);
-
-        tablaColoresUsados = new javax.swing.JTable() {
+        tablaColoresUsados = new javax.swing.JTable(){
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         tablaColoresUsados.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null}
-                },
-                new String[]{
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
         ));
         jScrollPane1.setViewportView(tablaColoresUsados);
 
@@ -85,14 +75,10 @@ public class ColoresUsados extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaColoresUsados;
     // End of variables declaration//GEN-END:variables
 
-    public void recibirLista(List<Figura> listaFiguras) {
-        this.figuras = listaFiguras;
-    }
 
     public void actualizarTablaColoresUsados() {
         String[] columnas = {"Color", "Cantidad de uso"};
@@ -101,118 +87,27 @@ public class ColoresUsados extends javax.swing.JPanel {
 
         DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
         centrado.setHorizontalAlignment(SwingConstants.CENTER);
+        tablaColoresUsados.setDefaultRenderer(Object.class, centrado);
 
-        int amarillo = 0;
-        int rojo = 0;
-        int azul = 0;
-        int negro = 0;
-        int verde = 0;
-        int rosado = 0;
-        int celeste = 0;
-        int morado = 0;
-/*
-        if (!figuras.isEmpty()) {
-            for (int i = 0; i < figuras.size(); i++) {
-                if (figuras.get(i) instanceof Circulo) {
-                    if (((Circulo) figuras.get(i)).getColor().equals("amarillo")) {
-                        amarillo++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("rojo")) {
-                        rojo++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("azul")) {
-                        azul++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("negro")) {
-                        negro++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("verde")) {
-                        verde++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("rosado")) {
-                        rosado++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("celeste")) {
-                        celeste++;
-                    } else if (((Circulo) figuras.get(i)).getColor().equals("morado")) {
-                        morado++;
-                    }
-                } else if (figuras.get(i) instanceof Linea) {
-                    if (((Linea) figuras.get(i)).getColor().equals("amarillo")) {
-                        amarillo++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("rojo")) {
-                        rojo++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("azul")) {
-                        azul++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("negro")) {
-                        negro++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("verde")) {
-                        verde++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("rosado")) {
-                        rosado++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("celeste")) {
-                        celeste++;
-                    } else if (((Linea) figuras.get(i)).getColor().equals("morado")) {
-                        morado++;
-                    }
-                } else if (figuras.get(i) instanceof Cuadrado) {
-                    if (((Cuadrado) figuras.get(i)).getColor().equals("amarillo")) {
-                        amarillo++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("rojo")) {
-                        rojo++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("azul")) {
-                        azul++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("negro")) {
-                        negro++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("verde")) {
-                        verde++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("rosado")) {
-                        rosado++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("celeste")) {
-                        celeste++;
-                    } else if (((Cuadrado) figuras.get(i)).getColor().equals("morado")) {
-                        morado++;
-                    }
-                } else if (figuras.get(i) instanceof Rectangulo) {
-                    if (((Rectangulo) figuras.get(i)).getColor().equals("amarillo")) {
-                        amarillo++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("rojo")) {
-                        rojo++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("azul")) {
-                        azul++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("negro")) {
-                        negro++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("verde")) {
-                        verde++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("rosado")) {
-                        rosado++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("celeste")) {
-                        celeste++;
-                    } else if (((Rectangulo) figuras.get(i)).getColor().equals("morado")) {
-                        morado++;
-                    }
-                } else if (figuras.get(i) instanceof Poligono) {
-                    if (((Poligono) figuras.get(i)).getColor().equals("amarillo")) {
-                        amarillo++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("rojo")) {
-                        rojo++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("azul")) {
-                        azul++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("negro")) {
-                        negro++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("verde")) {
-                        verde++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("rosado")) {
-                        rosado++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("celeste")) {
-                        celeste++;
-                    } else if (((Poligono) figuras.get(i)).getColor().equals("morado")) {
-                        morado++;
-                    }
+        Map<String, Integer> contadorColores = new HashMap<>();
+        String[] colores = {"amarillo", "rojo", "azul", "negro", "verde", "rosado", "celeste", "morado"};
+
+        for (String color : colores) {
+            contadorColores.put(color, 0);
+        }
+
+        if (!PanelDibujo.listaFiguras.isEmpty()) {
+            for (Figura figura : PanelDibujo.listaFiguras) {
+                String color = figura.getColor();
+                if (contadorColores.containsKey(color)) {
+                    contadorColores.put(color, contadorColores.get(color) + 1);
                 }
             }
+        }
 
-            for (int i = 0; i < 9; i++) {
-                tablaColoresUsados.getColumnModel().getColumn(i).setCellRenderer(centrado);
-            }
-
-            for (int i = 0; i < 5; i++) {
-                modelo.setValueAt("Amarillo", amarillo, 0);
-            }
-        }*/
+        for (String color : colores) {
+            Object[] fila = {color, contadorColores.get(color)};
+            modelo.addRow(fila);
+        }
     }
 }

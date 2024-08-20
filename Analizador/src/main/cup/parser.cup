@@ -3,18 +3,11 @@ package backend.sintactico;
 import java_cup.runtime.*;
 import java.util.List;
 import java.util.LinkedList;
-import frontend.graficas.GraficaCirculo;
-import frontend.graficas.GraficaLinea;
-import frontend.graficas.GraficaCuadrado;
-import frontend.graficas.GraficaRectangulo;
-import frontend.graficas.GraficaPoligono;
+import frontend.graficas.*;
 import backend.figuras.*;
 import backend.lexico.Lexer;
 import backend.reportes.ErrorReporte;
 import javax.swing.JFrame;
-import frontend.graficas.PanelDibujo;
-import backend.figuras.Figura;
-import frontend.graficas.PanelDibujo;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -26,26 +19,25 @@ class Parser;
 action code {:
 
     private Figura ultimaFigura = null;
+    public List<Figura> listaObjetosList = new LinkedList<>();
+
+    public List<Figura> getListaObjetosList() {
+        return listaObjetosList;
+    }
 
     public void report_error(String message, Object info) {
         if (info instanceof Symbol) {
-             Symbol s = (Symbol) info;
-             Lexer.errores.add(new ErrorReporte(String.valueOf(s.value), (s.left+1), (s.right+1), "Sintáctico", message));
-             System.out.println("Error sintáctico en la Línea " + (s.left + 1) + " Columna " + (s.right + 1) + ". Se encontró: \"" + s.value + "\". " + message);
+            Symbol s = (Symbol) info;
+            Lexer.errores.add(new ErrorReporte(String.valueOf(s.value), s.left+1, s.right+1, "Sintáctico", message));
+            System.out.println("Error sintáctico en la Línea " + (s.left + 1) + " Columna " + (s.right + 1) + ". Se encontró: \"" + s.value + "\". " + message);
         } else {
-             System.out.println("Error sintáctico: " + message);
+            System.out.println("Error sintáctico: " + message);
         }
     }
 
     public void report_fatal_error(String message, Object info) throws Exception {
-         report_error(message, info);
-         throw new Exception("Error sintáctico irrecuperable.");
-    }
-
-    public List<Figura> listaObjetosList = new LinkedList<>();
-
-    public List<Figura> getListaObjetosList() {
-            return listaObjetosList;
+        report_error(message, info);
+        throw new Exception("Error sintáctico irrecuperable.");
     }
 
     public void graficar() {
@@ -73,36 +65,19 @@ action code {:
     }
 
     public void animar(String animacion) {
-        System.out.println("tipo animación: " + animacion);
+        if ((listaObjetosList.size() - 1) > 0 ) {
+            ultimaFigura = listaObjetosList.get(listaObjetosList.size() - 1);
+        }
 
-        if (ultimaFigura != null) {
-            if (animacion.equals("curva")) {
-                if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Circulo) {
-                    System.out.println("moviendo circulo en curva");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Linea) {
-                    System.out.println("moviendo linea en curva");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Cuadrado) {
-                    System.out.println("moviendo cuadrado en curva");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Rectangulo) {
-                    System.out.println("moviendo rectangulo en curva");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Poligono) {
-                    System.out.println("moviendo poligono en curva");
-                }
-            } else if (animacion.equals("línea")) {
-                if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Circulo) {
-                    System.out.println("moviendo circulo en línea");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Linea) {
-                    System.out.println("moviendo linea en línea");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Cuadrado) {
-                    System.out.println("moviendo cuadrado en línea");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Rectangulo) {
-                    System.out.println("moviendo rectangulo en línea");
-                } else if (listaObjetosList.get(listaObjetosList.size() - 1) instanceof Poligono) {
-                    System.out.println("moviendo poligono en línea");
-                }
-            }
-        } else {
+        if (!listaObjetosList.isEmpty()) {
+            String tipoFigura = ultimaFigura.getClass().getSimpleName();
+            String tipoAnimacion = animacion.equals("curva") ? "curva" : "línea";
+            System.out.println("moviendo " + tipoFigura.toLowerCase() + " en " + tipoAnimacion);
+        }
+
+        if (ultimaFigura == null) {
             System.out.println("No hay figura para animar.");
+            return;
         }
     }
 
@@ -128,8 +103,8 @@ inicial ::= programa;
 
 /* Programa con múltiples instrucciones */
 programa ::= instruccion programa
-           | error:err instruccion {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 2, 2, "Sintáctico", "Error en el comando")); :}
-           | ID:err {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 1, 1, "Sintáctico", "Se espera \"graficar\" o \"animar\"")); :}
+           | error:err {: report_error("Error en el comando", err); :}
+           | ID:err {: report_error("Se espera \"graficar\" o \"animar\"", err); :}
            | /*EOF*/ {: graficar(); :};
 
 /* Instrucciones válidas */
@@ -139,24 +114,17 @@ instruccion ::= GRAFICAR forma {: ultimaFigura = (Figura) RESULT; :}
 /* Formas existentes */
 forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:radio COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Circulo(id, (Double)posicionX, (Double)posicionY, (Double)radio, (String)col));
-    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | CUADRADO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:tamanio COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Cuadrado(id, (Double)posicionX, (Double)posicionY, (Double)tamanio, (String)col));
-    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
-:}
-        | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
-    listaObjetosList.add(new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, (String)col));
-    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col));
-    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
 :}
         | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col));
-    RESULT = listaObjetosList.get(listaObjetosList.size() - 1);
-:};
+:}
+        | error:err {: report_error("Error al graficar", err); :};
 
 /* Colores disponibles */
 color ::= AZUL    {: RESULT = "azul"; :}
@@ -174,7 +142,7 @@ animar ::= PARENTESIS_ABRE tipoanimacion:animacion COMA expresion COMA expresion
 /* Tipos de animación */
 tipoanimacion ::= CURVA {: RESULT = "curva"; :}
                 | LINEA {: RESULT = "línea"; :}
-                | error:err {: Lexer.errores.add(new ErrorReporte(String.valueOf(err), 1, 1, "Sintáctico", "Se esperaba curva o línea")); :};
+                | error:err {: report_error("Se esperaba curva o línea", err); :};
 
 /* Expresiones aritméticas */
 expresion ::= expresion:e1 SUMA expresion:e2                 {: RESULT = ((Number)e1).doubleValue() + ((Number)e2).doubleValue(); :}
