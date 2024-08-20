@@ -4,12 +4,14 @@ import backend.figuras.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -128,6 +130,7 @@ public class PanelDibujo extends JPanel {
 
             try {
                 ImageIO.write(image, "PNG", fileToSave);
+                JOptionPane.showMessageDialog(this, "Archivo PNG guardado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -147,20 +150,34 @@ public class PanelDibujo extends JPanel {
 
             BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = image.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
             this.paint(g2d);
             g2d.dispose();
 
-            Document document = new Document();
+            Document document = null;
             try {
+                document = new Document(new com.itextpdf.text.Rectangle(getWidth(), getHeight()));
                 PdfWriter.getInstance(document, new FileOutputStream(fileToSave));
                 document.open();
-                Image pdfImage = Image.getInstance(image, null);
+                Image pdfImage = Image.getInstance(imageToByteArray(image));
+                pdfImage.setAbsolutePosition(0, 0);
+                pdfImage.scaleToFit(getWidth(), getHeight());
                 document.add(pdfImage);
+                document.close();
+                JOptionPane.showMessageDialog(this, "Archivo PDF guardado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } catch (DocumentException | IOException ex) {
                 ex.printStackTrace();
             } finally {
                 document.close();
             }
+        }
+    }
+
+    private byte[] imageToByteArray(BufferedImage image) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageIO.write(image, "png", baos);
+            return baos.toByteArray();
         }
     }
 }
