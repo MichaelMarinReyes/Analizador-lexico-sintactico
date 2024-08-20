@@ -2,14 +2,17 @@ package frontend.reportes;
 
 import backend.lexico.Lexer;
 import backend.lexico.OperadorAritmetico;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.swing.table.TableRowSorter;
 
 
@@ -98,7 +101,7 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
         if (sorter == null) return;
 
         String filtro = filtroOperadoresMatematicos.getSelectedItem().toString();
-        if (!filtro.equals("Todos")) {
+        if (!filtro.equals("TODOS")) {
             sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filtro, 0));
         } else {
             sorter.setRowFilter(null);
@@ -113,11 +116,11 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void llenarComboBox() {
-        filtroOperadoresMatematicos.addItem("Todos");
-        filtroOperadoresMatematicos.addItem("Suma");
-        filtroOperadoresMatematicos.addItem("Resta");
-        filtroOperadoresMatematicos.addItem("Multiplicación");
-        filtroOperadoresMatematicos.addItem("División");
+        filtroOperadoresMatematicos.addItem("TODOS");
+        filtroOperadoresMatematicos.addItem("SUMA");
+        filtroOperadoresMatematicos.addItem("RESTA");
+        filtroOperadoresMatematicos.addItem("MULTIPLICACIÓN");
+        filtroOperadoresMatematicos.addItem("DIVISIÓN");
     }
 
     public void actualizarTablaOperadoresMatematicos() {
@@ -134,7 +137,6 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
             tablaOperadoresMatematicos.getColumnModel().getColumn(i).setCellRenderer(centrado);
         }
 
-        // Asegúrate de que los datos se están cargando correctamente
         List<OperadorAritmetico> operadores = Lexer.operadorAritmetico;
         for (OperadorAritmetico operador : operadores) {
             Object[] fila = {
@@ -145,11 +147,6 @@ public class OperadoresMatematicos extends javax.swing.JPanel {
                     operador.getOcurrencia()
             };
             modelo.addRow(fila);
-        }
-
-        // Imprime los datos de la columna "Operación" para verificar su formato
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            System.out.println("Operación en fila " + i + ": " + modelo.getValueAt(i, 0));
         }
     }
 }
