@@ -13,11 +13,10 @@ import javax.swing.table.DefaultTableModel;
 public class ReporteErrores extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> filtroOperadoresMatematicos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaErrores;
     /**
-     * Creates new form OperadoresMatemáticos
+     * Creates new form ReporteErrores
      */
     public ReporteErrores() {
         initComponents();
@@ -34,24 +33,12 @@ public class ReporteErrores extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        filtroOperadoresMatematicos = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaErrores = new javax.swing.JTable();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(844, 590));
         setLayout(new java.awt.GridBagLayout());
-
-        filtroOperadoresMatematicos.setBackground(new java.awt.Color(0, 153, 255));
-        filtroOperadoresMatematicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 455;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(4, 12, 4, 0);
-        add(filtroOperadoresMatematicos, gridBagConstraints);
 
         tablaErrores = new javax.swing.JTable() {
             public boolean isCellEditable(int row, int col) {

@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Analizador:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Analizador_jar</output-path>
+    <root id="archive" name="Analizador.jar">
+      <element id="module-output" name="Analizador" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/itextpdf/itextpdf/5.5.13.2/itextpdf-5.5.13.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/vbmacher/java-cup-runtime/11b-20160615-3/java-cup-runtime-11b-20160615-3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
