@@ -1,9 +1,7 @@
 package frontend.reportes;
 
 import backend.figuras.*;
-import backend.sintactico.Parser;
 import frontend.graficas.PanelDibujo;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;

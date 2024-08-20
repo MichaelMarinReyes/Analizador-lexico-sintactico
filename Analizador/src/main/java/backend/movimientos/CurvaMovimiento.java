@@ -1,6 +1,6 @@
 package backend.movimientos;
 
-public class CirculoMovimiento extends Thread {
+public class CurvaMovimiento extends Thread {
     private int posicionX;
     private int posicionY;
     private int movimientoX;

@@ -2,13 +2,10 @@ package frontend.reportes;
 
 import backend.figuras.*;
 import frontend.graficas.PanelDibujo;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

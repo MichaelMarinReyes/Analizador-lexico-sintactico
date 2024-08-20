@@ -121,6 +121,9 @@ forma ::= CIRCULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:
         | LINEA_OBJ PARENTESIS_ABRE ID:id COMA expresion:inicialX COMA expresion:inicialY COMA expresion:finalX COMA expresion:finalY COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Linea(id, (Double)inicialX, (Double)inicialY, (Double)finalX, (Double)finalY, (String)col));
 :}
+        | RECTANGULO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
+    listaObjetosList.add(new Rectangulo(id, (Double)posicionX, (Double)posicionY, (Double)ancho, (Double)alto, String.valueOf(col)));
+:}
         | POLIGONO PARENTESIS_ABRE ID:id COMA expresion:posicionX COMA expresion:posicionY COMA expresion:cantLados COMA expresion:ancho COMA expresion:alto COMA color:col PARENTESIS_CIERRA {:
     listaObjetosList.add(new Poligono(id, (Double)posicionX, (Double)posicionY, (Integer)((Double)cantLados).intValue(), (Double)ancho, (Double)alto, (String)col));
 :}

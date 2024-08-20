@@ -2,17 +2,10 @@ package frontend.reportes;
 
 import backend.lexico.Lexer;
 import backend.lexico.OperadorAritmetico;
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.swing.table.TableRowSorter;
 
 
